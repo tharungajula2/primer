@@ -61,7 +61,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   word-break: break-word;
 }
 
-/* Constrain prose text elements to 65-75 ch (max-w-2xl) centered within the content area */
+/* Constrain prose text elements to 65-75 ch (max-w-2xl) anchored to the left of content area */
 .prose > p,
 .prose > h2,
 .prose > h3,
@@ -70,7 +70,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .prose > blockquote,
 .prose > hr {
   max-width: 42rem; /* 672px (max-w-2xl) */
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
 }
 

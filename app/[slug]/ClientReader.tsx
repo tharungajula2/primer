@@ -73,7 +73,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             : "py-4 sm:py-5 bg-transparent border-b border-transparent backdrop-blur-none"
         )}
       >
-        <div className="max-w-2xl mx-auto px-3 md:px-4 flex items-center justify-between gap-4">
+        <div className="w-full max-w-[90rem] mx-auto px-3 md:px-6 lg:px-8 xl:px-12 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 overflow-hidden min-w-0">
             <Link 
               href="/" 
@@ -117,7 +117,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
       </header>
 
       {/* Main Layout Container */}
-      <div className="w-full max-w-7xl mx-auto px-3 md:px-6 xl:px-8 pt-24 pb-32 lg:grid lg:grid-cols-[15rem_1fr] xl:grid-cols-[17rem_1fr] lg:gap-12 xl:gap-16 items-start min-w-0 flex-1">
+      <div className="w-full max-w-[90rem] mx-auto px-3 md:px-6 lg:px-8 xl:px-12 pt-24 pb-32 lg:grid lg:grid-cols-[15rem_1fr] xl:grid-cols-[17rem_1fr] lg:gap-10 xl:gap-14 items-start min-w-0 flex-1">
         {/* Column 1: Desktop Side Rail TOC */}
         {showTocButton ? (
           <aside className="hidden lg:block w-full sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar py-2">
@@ -154,9 +154,9 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
         )}
 
         {/* Column 2: Main Content Area */}
-        <main className="w-full max-w-2xl lg:max-w-none mx-auto min-w-0 flex-1">
+        <main className="w-full max-w-5xl min-w-0 flex-1">
           {/* Document Header */}
-          <header className="mb-12 max-w-2xl mx-auto">
+          <header className="mb-12 max-w-2xl">
             <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight mb-4 leading-tight">
               {doc.title}
             </h1>
