@@ -73,7 +73,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             : "bg-transparent py-4"
         )}
       >
-        <div className="max-w-2xl mx-auto px-4 flex items-center justify-between gap-4">
+        <div className="max-w-2xl mx-auto px-3 md:px-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 overflow-hidden min-w-0">
             <Link 
               href="/" 
@@ -117,7 +117,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
       </header>
 
       {/* Main Content */}
-      <main className="w-full max-w-2xl mx-auto px-4 pt-24 pb-32 min-w-0 flex-1">
+      <main className="w-full max-w-2xl mx-auto px-3 md:px-4 pt-24 pb-32 min-w-0 flex-1">
         {/* Document Header */}
         <header className="mb-12">
           <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight mb-4 leading-tight">
