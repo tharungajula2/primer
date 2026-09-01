@@ -97,7 +97,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             {showTocButton && (
               <button
                 onClick={() => setIsTocOpen(true)}
-                className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/10 dark:active:bg-white/10 transition-colors"
+                className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/10 dark:active:bg-white/10 transition-colors lg:hidden"
                 aria-label="Table of contents"
               >
                 <List className="w-5 h-5" />
@@ -116,28 +116,69 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="w-full max-w-2xl mx-auto px-3 md:px-4 pt-24 pb-32 min-w-0 flex-1">
-        {/* Document Header */}
-        <header className="mb-12">
-          <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight mb-4 leading-tight">
-            {doc.title}
-          </h1>
-          <p className="text-xl text-muted leading-relaxed mb-6">
-            {doc.description}
-          </p>
-          <div className="flex items-center gap-4 text-sm font-medium text-muted/80">
-            <span>{doc.readTime}</span>
-            <span>&middot;</span>
-            <span>{doc.wordCount.toLocaleString()} words</span>
-          </div>
-        </header>
+      {/* Main Layout Container */}
+      <div className="w-full max-w-7xl mx-auto px-3 md:px-6 xl:px-8 pt-24 pb-32 flex gap-8 xl:gap-16 items-start justify-center min-w-0 flex-1">
+        {/* Desktop Side Rail TOC */}
+        {showTocButton && (
+          <aside className="hidden lg:block w-56 xl:w-64 shrink-0 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar py-2">
+            <h2 className="font-semibold text-xs uppercase tracking-wider text-muted mb-4 px-3">
+              Contents
+            </h2>
+            <nav className="space-y-0.5">
+              {headings.map((heading) => (
+                <a
+                  key={heading.id}
+                  href={`#${heading.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const el = document.getElementById(heading.id);
+                    if (el) {
+                      const y = el.getBoundingClientRect().top + window.scrollY - 80;
+                      window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
+                  }}
+                  className={clsx(
+                    "block px-3 py-1.5 rounded-md text-xs font-medium transition-colors leading-relaxed",
+                    activeId === heading.id 
+                      ? "bg-foreground/10 text-foreground font-semibold" 
+                      : "text-muted hover:bg-foreground/5 hover:text-foreground"
+                  )}
+                >
+                  {heading.text}
+                </a>
+              ))}
+            </nav>
+          </aside>
+        )}
 
-        {/* Rendered Markdown Body */}
-        <article className="prose w-full min-w-0">
-          {children}
-        </article>
-      </main>
+        {/* Reading Column */}
+        <main className="w-full max-w-2xl min-w-0 flex-1">
+          {/* Document Header */}
+          <header className="mb-12">
+            <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight mb-4 leading-tight">
+              {doc.title}
+            </h1>
+            <p className="text-xl text-muted leading-relaxed mb-6">
+              {doc.description}
+            </p>
+            <div className="flex items-center gap-4 text-sm font-medium text-muted/80">
+              <span>{doc.readTime}</span>
+              <span>&middot;</span>
+              <span>{doc.wordCount.toLocaleString()} words</span>
+            </div>
+          </header>
+
+          {/* Rendered Markdown Body */}
+          <article className="prose w-full min-w-0">
+            {children}
+          </article>
+        </main>
+
+        {/* Right Balance Spacer for Centered Prose Composition */}
+        {showTocButton && (
+          <div className="hidden lg:block w-56 xl:w-64 shrink-0 pointer-events-none" />
+        )}
+      </div>
 
       {/* TOC Sheet Overlay */}
       {isTocOpen && (

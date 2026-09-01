@@ -50,7 +50,7 @@ export function ScrollContainer({
   return (
     <div
       ref={containerRef}
-      className={`w-full overflow-x-auto my-6 no-scrollbar touch-pan-x min-w-0 ${className}`}
+      className={`w-full overflow-x-auto my-6 md:my-8 no-scrollbar touch-pan-x min-w-0 lg:-mx-16 lg:w-[calc(100%+8rem)] xl:-mx-28 xl:w-[calc(100%+14rem)] ${className}`}
       style={{
         maskImage,
         WebkitMaskImage: maskImage,
