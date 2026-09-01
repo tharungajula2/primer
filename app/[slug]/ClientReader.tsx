@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, List, X } from 'lucide-react';
 import { DocumentData } from '@/lib/markdown';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import clsx from 'clsx';
 
 interface ClientReaderProps {
@@ -17,10 +18,8 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
   const [isTocOpen, setIsTocOpen] = useState(false);
   const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
   
-  // Track scroll for top bar
   useEffect(() => {
     const handleScroll = () => {
-      // Show document title in top bar after scrolling past ~150px (approx header height)
       setScrolledPastHeader(window.scrollY > 150);
     };
     
@@ -28,13 +27,11 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Track active heading
   useEffect(() => {
     if (headings.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the most recently intersecting heading
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveId(entry.target.id);
@@ -52,7 +49,6 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
     return () => observer.disconnect();
   }, [headings]);
 
-  // Calculate read progress
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     const handleScroll = () => {
@@ -67,7 +63,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
   const showTocButton = headings.length >= 4;
 
   return (
-    <>
+    <div className="flex-1 flex flex-col w-full min-w-0">
       {/* Top Bar */}
       <header 
         className={clsx(
@@ -77,8 +73,8 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             : "bg-transparent py-4"
         )}
       >
-        <div className="max-w-3xl mx-auto px-4 flex items-center justify-between">
-          <div className="flex items-center gap-4 overflow-hidden">
+        <div className="max-w-2xl mx-auto px-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 overflow-hidden min-w-0">
             <Link 
               href="/" 
               className="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/10 dark:active:bg-white/10 transition-colors shrink-0"
@@ -89,7 +85,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             
             <h1 
               className={clsx(
-                "font-medium text-sm truncate transition-opacity duration-300",
+                "font-medium text-sm truncate transition-opacity duration-300 min-w-0",
                 scrolledPastHeader ? "opacity-100" : "opacity-0"
               )}
             >
@@ -97,15 +93,18 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             </h1>
           </div>
 
-          {showTocButton && (
-            <button
-              onClick={() => setIsTocOpen(true)}
-              className="p-2 -mr-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/10 dark:active:bg-white/10 transition-colors shrink-0"
-              aria-label="Table of contents"
-            >
-              <List className="w-5 h-5" />
-            </button>
-          )}
+          <div className="flex items-center gap-1 shrink-0">
+            {showTocButton && (
+              <button
+                onClick={() => setIsTocOpen(true)}
+                className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/10 dark:active:bg-white/10 transition-colors"
+                aria-label="Table of contents"
+              >
+                <List className="w-5 h-5" />
+              </button>
+            )}
+            <ThemeToggle />
+          </div>
         </div>
         
         {/* Progress Bar */}
@@ -118,7 +117,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
       </header>
 
       {/* Main Content */}
-      <main className="max-w-2xl mx-auto px-4 pt-24 pb-32">
+      <main className="w-full max-w-2xl mx-auto px-4 pt-24 pb-32 min-w-0 flex-1">
         {/* Document Header */}
         <header className="mb-12">
           <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight mb-4 leading-tight">
@@ -135,7 +134,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
         </header>
 
         {/* Rendered Markdown Body */}
-        <article className="prose w-full">
+        <article className="prose w-full min-w-0">
           {children}
         </article>
       </main>
@@ -146,7 +145,6 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
           className="fixed inset-0 z-50 flex flex-col justify-end sm:justify-center sm:items-center p-4 bg-background/60 backdrop-blur-sm"
           onClick={() => setIsTocOpen(false)}
         >
-          {/* TOC Sheet */}
           <div 
             className="bg-background border border-border rounded-2xl w-full max-w-sm max-h-[80vh] flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 fade-in duration-200"
             onClick={(e) => e.stopPropagation()}
@@ -161,7 +159,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
               </button>
             </div>
             
-            <div className="overflow-y-auto p-4 space-y-1">
+            <div className="overflow-y-auto p-4 space-y-1 no-scrollbar">
               {headings.map((heading) => (
                 <a
                   key={heading.id}
@@ -169,7 +167,6 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
                   onClick={(e) => {
                     e.preventDefault();
                     setIsTocOpen(false);
-                    // Smooth scroll to element, accounting for fixed header
                     const el = document.getElementById(heading.id);
                     if (el) {
                       const y = el.getBoundingClientRect().top + window.scrollY - 80;
@@ -190,6 +187,6 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

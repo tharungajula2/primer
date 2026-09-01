@@ -7,8 +7,15 @@
   --border: #E5E5E5;
 }
 
+.dark {
+  --background: #121212;
+  --foreground: #EAEAEA;
+  --muted: #999999;
+  --border: #333333;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --background: #121212;
     --foreground: #EAEAEA;
     --muted: #999999;
@@ -35,11 +42,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide scrollbars globally while preserving scroll functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html, body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none;
+}
+
 /* Base formatting for Prose */
 .prose {
   font-family: var(--font-serif);
   font-size: 1.125rem; /* 18px */
   line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .prose p,
@@ -110,8 +136,6 @@ body {
   border: 1px solid var(--border);
   padding: 1rem;
   border-radius: 0.5rem;
-  overflow-x: auto;
-  white-space: pre;
 }
 
 .prose pre code {
