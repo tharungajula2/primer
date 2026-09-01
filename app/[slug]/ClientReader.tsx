@@ -20,7 +20,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
   
   useEffect(() => {
     const handleScroll = () => {
-      setScrolledPastHeader(window.scrollY > 150);
+      setScrolledPastHeader(window.scrollY > 100);
     };
     
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -69,8 +69,8 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
         className={clsx(
           "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
           scrolledPastHeader 
-            ? "bg-background/80 backdrop-blur-md border-b border-border py-3" 
-            : "bg-transparent py-4"
+            ? "py-2 bg-background/80 dark:bg-[#121212]/85 backdrop-blur-md backdrop-saturate-150 border-b border-border shadow-xs" 
+            : "py-4 sm:py-5 bg-transparent border-b border-transparent backdrop-blur-none"
         )}
       >
         <div className="max-w-2xl mx-auto px-3 md:px-4 flex items-center justify-between gap-4">
