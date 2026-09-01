@@ -117,10 +117,10 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
       </header>
 
       {/* Main Layout Container */}
-      <div className="w-full max-w-7xl mx-auto px-3 md:px-6 xl:px-8 pt-24 pb-32 flex gap-8 xl:gap-16 items-start justify-center min-w-0 flex-1">
-        {/* Desktop Side Rail TOC */}
-        {showTocButton && (
-          <aside className="hidden lg:block w-56 xl:w-64 shrink-0 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar py-2">
+      <div className="w-full max-w-7xl mx-auto px-3 md:px-6 xl:px-8 pt-24 pb-32 lg:grid lg:grid-cols-[15rem_1fr] xl:grid-cols-[17rem_1fr] lg:gap-12 xl:gap-16 items-start min-w-0 flex-1">
+        {/* Column 1: Desktop Side Rail TOC */}
+        {showTocButton ? (
+          <aside className="hidden lg:block w-full sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar py-2">
             <h2 className="font-semibold text-xs uppercase tracking-wider text-muted mb-4 px-3">
               Contents
             </h2>
@@ -149,12 +149,14 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
               ))}
             </nav>
           </aside>
+        ) : (
+          <div className="hidden lg:block w-full" />
         )}
 
-        {/* Reading Column */}
-        <main className="w-full max-w-2xl min-w-0 flex-1">
+        {/* Column 2: Main Content Area */}
+        <main className="w-full max-w-2xl lg:max-w-none mx-auto min-w-0 flex-1">
           {/* Document Header */}
-          <header className="mb-12">
+          <header className="mb-12 max-w-2xl mx-auto">
             <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight mb-4 leading-tight">
               {doc.title}
             </h1>
@@ -173,11 +175,6 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             {children}
           </article>
         </main>
-
-        {/* Right Balance Spacer for Centered Prose Composition */}
-        {showTocButton && (
-          <div className="hidden lg:block w-56 xl:w-64 shrink-0 pointer-events-none" />
-        )}
       </div>
 
       {/* TOC Sheet Overlay */}
