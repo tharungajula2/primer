@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, List, X } from 'lucide-react';
 import { DocumentData } from '@/lib/markdown';
@@ -17,6 +17,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
   const [activeId, setActiveId] = useState<string>('');
   const [isTocOpen, setIsTocOpen] = useState(false);
   const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
+  const tocNavRef = useRef<HTMLElement>(null);
   
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +39,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
           }
         });
       },
-      { rootMargin: '0px 0px -80% 0px', threshold: 0.1 }
+      { rootMargin: '0px 0px -75% 0px', threshold: 0.1 }
     );
 
     headings.forEach(({ id }) => {
@@ -48,6 +49,15 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
 
     return () => observer.disconnect();
   }, [headings]);
+
+  // Keep active TOC item visible inside the sticky sidebar container as user scrolls
+  useEffect(() => {
+    if (!activeId || !tocNavRef.current) return;
+    const activeEl = tocNavRef.current.querySelector(`[data-toc-id="${activeId}"]`);
+    if (activeEl) {
+      activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [activeId]);
 
   const [progress, setProgress] = useState(0);
   useEffect(() => {
@@ -117,18 +127,23 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
       </header>
 
       {/* Main Layout Container */}
-      <div className="w-full max-w-[90rem] mx-auto px-3 md:px-6 lg:px-8 xl:px-12 pt-24 pb-32 lg:grid lg:grid-cols-[15rem_1fr] xl:grid-cols-[17rem_1fr] lg:gap-10 xl:gap-14 items-start min-w-0 flex-1">
+      <div className="w-full max-w-[90rem] mx-auto px-3 md:px-6 lg:px-8 xl:px-12 pt-24 pb-32 lg:grid lg:grid-cols-[16rem_1fr] xl:grid-cols-[18rem_1fr] lg:gap-8 xl:gap-12 items-start min-w-0 flex-1">
         {/* Column 1: Desktop Side Rail TOC */}
         {showTocButton ? (
-          <aside className="hidden lg:block w-full sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar py-2">
-            <h2 className="font-semibold text-xs uppercase tracking-wider text-muted mb-4 px-3">
+          <aside 
+            ref={tocNavRef}
+            className="hidden lg:block w-full sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto no-scrollbar py-2 border-r border-border/40 pr-4"
+          >
+            <h2 className="font-semibold text-xs uppercase tracking-wider text-muted mb-4 px-2">
               Contents
             </h2>
-            <nav className="space-y-0.5">
+            <nav className="space-y-1">
               {headings.map((heading) => (
                 <a
                   key={heading.id}
+                  data-toc-id={heading.id}
                   href={`#${heading.id}`}
+                  title={heading.text}
                   onClick={(e) => {
                     e.preventDefault();
                     const el = document.getElementById(heading.id);
@@ -138,9 +153,9 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
                     }
                   }}
                   className={clsx(
-                    "block px-3 py-1.5 rounded-md text-xs font-medium transition-colors leading-relaxed",
+                    "block px-3 py-1.5 rounded-md text-xs font-medium transition-all leading-snug line-clamp-2",
                     activeId === heading.id 
-                      ? "bg-foreground/10 text-foreground font-semibold" 
+                      ? "bg-foreground/10 text-foreground font-semibold border-l-2 border-foreground pl-2.5" 
                       : "text-muted hover:bg-foreground/5 hover:text-foreground"
                   )}
                 >
@@ -177,7 +192,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
         </main>
       </div>
 
-      {/* TOC Sheet Overlay */}
+      {/* TOC Sheet Overlay (Mobile / Tablet) */}
       {isTocOpen && (
         <div 
           className="fixed inset-0 z-50 flex flex-col justify-end sm:justify-center sm:items-center p-4 bg-background/60 backdrop-blur-sm"
@@ -202,6 +217,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
                 <a
                   key={heading.id}
                   href={`#${heading.id}`}
+                  title={heading.text}
                   onClick={(e) => {
                     e.preventDefault();
                     setIsTocOpen(false);
@@ -212,9 +228,9 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
                     }
                   }}
                   className={clsx(
-                    "block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                    "block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors leading-snug line-clamp-2",
                     activeId === heading.id 
-                      ? "bg-foreground/10 text-foreground" 
+                      ? "bg-foreground/10 text-foreground font-semibold border-l-2 border-foreground pl-2.5" 
                       : "text-muted hover:bg-foreground/5 hover:text-foreground"
                   )}
                 >
