@@ -56,9 +56,14 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .prose {
   font-family: var(--font-serif);
   font-size: 1rem; /* 16px mobile */
+  font-weight: 400;
   line-height: 1.72; /* 1.72 leading for mobile 16px serif */
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+.prose p {
+  font-weight: 400;
 }
 
 /* Constrain prose text elements to 65-75 ch (max-w-2xl) anchored to the left of content area */
@@ -162,6 +167,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 .prose li {
   margin-bottom: 0.375rem;
+  font-weight: 400;
 }
 
 .prose blockquote {
@@ -193,15 +199,17 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   border-radius: 0.5rem;
   max-width: 100%;
   width: 100%;
-  white-space: pre-wrap; /* Wrap flow diagrams on web layout */
-  word-break: break-word;
-  overflow-wrap: break-word;
+  white-space: pre; /* Mobile: scroll code/flow diagrams */
+  overflow-x: auto;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .prose pre {
     font-size: 0.875rem; /* 14px desktop */
     padding: 1rem;
+    white-space: pre-wrap; /* Web layout only: wrap long diagram lines */
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 }
 
@@ -211,43 +219,26 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   font-size: 1em;
 }
 
-/* Table Container & Layout Fixes - GitHub / VS Code preview style */
+/* Table Styles: Mobile Default (< 1024px) */
 .table-container {
   width: 100%;
   max-width: 100%;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   overflow-x: auto;
-}
-
-@media (min-width: 1024px) {
-  .table-container {
-    overflow-x: visible !important;
-  }
+  -webkit-overflow-scrolling: touch;
 }
 
 .prose table {
-  width: 100% !important;
-  max-width: 100% !important;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   font-family: var(--font-sans);
-  font-size: 0.875rem; /* 14px mobile */
+  font-size: 0.875rem; /* 14px */
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   overflow: hidden;
   table-layout: auto;
-}
-
-@media (min-width: 1024px) {
-  .prose table {
-    font-size: 0.875rem; /* 14px web layout */
-    table-layout: fixed !important; /* Force exact 100% width fitting on web layout */
-  }
-
-  .prose th:first-child,
-  .prose td:first-child {
-    width: 24% !important; /* Proper allocation for Dimension / Key terms column */
-  }
 }
 
 .prose th,
@@ -257,9 +248,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   padding: 0.625rem 0.875rem;
   text-align: left;
   vertical-align: top;
-  white-space: normal !important;
-  word-break: break-word !important;
-  overflow-wrap: break-word !important;
+  white-space: nowrap; /* Mobile: Keep text on one line with scroll, no sentence squishing */
 }
 
 .prose th:last-child,
@@ -271,26 +260,38 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   border-bottom: none;
 }
 
-@media (min-width: 768px) {
-  .prose th,
-  .prose td {
-    padding: 0.75rem 0.875rem;
-  }
-}
-
 .prose th {
   font-weight: 600;
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .dark .prose th {
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: rgba(255, 255, 255, 0.04);
 }
 
-.prose tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.015);
-}
+/* Table Styles: Web Layout Only (>= 1024px) */
+@media (min-width: 1024px) {
+  .table-container {
+    overflow-x: visible !important;
+  }
 
-.dark .prose tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.02);
+  .prose table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed !important; /* Force exact 100% fit on web layout */
+    font-size: 0.875rem;
+  }
+
+  .prose th,
+  .prose td {
+    padding: 0.75rem 0.875rem;
+    white-space: normal !important; /* Web layout only: wrap cell text */
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .prose th:first-child,
+  .prose td:first-child {
+    width: 24% !important; /* First column ratio */
+  }
 }

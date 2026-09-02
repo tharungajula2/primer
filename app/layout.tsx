@@ -5,6 +5,9 @@ import "./globals.css";
 const literata = Literata({
   variable: "--font-literata",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
