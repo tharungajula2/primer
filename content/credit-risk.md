@@ -75,17 +75,7 @@ Contractual obligation
 → economic loss
 ```
 
-```text
-Will default happen?      → PD
-How severe if it does?    → LGD
-How much is exposed then? → EAD
-
-Expected Loss = PD x LGD x EAD
-
-PD    probability of default over the horizon
-LGD   loss given default as fraction of exposure
-EAD   exposure at default
-```
+Credit risk therefore starts before arrears and ends after recovery. Borrower quality drives the likelihood of failure, facility structure controls how much can be outstanding when failure arrives, and security plus recovery mechanics determine how much value is ultimately lost.
 
 ### Never confuse
 
@@ -95,16 +85,6 @@ Loss ≠ Exposure
 Exposure ≠ Balance
 Collateral ≠ Repayment capacity
 Provision ≠ Capital
-```
-
-### Mental model
-
-```text
-Credit risk starts before arrears
-Credit loss ends after recovery
-Borrower risk drives PD
-Facility structure drives EAD
-Recovery structure drives LGD
 ```
 
 ## 2. Retail, MSME and corporate credit use different risk units
@@ -119,34 +99,13 @@ Recovery structure drives LGD
 | Monitoring centre | Behaviour | Conduct + turnover + financials | Financials + covenants + liquidity |
 | Workout mode | Collections | Collections + restructuring | Workout + restructuring + enforcement |
 
-```text
-Retail
-→ high volume
-→ standardised products
-→ behavioural signals
+Retail lending gets most of its signal from repeated account behaviour inside standardised products. MSME lending depends more heavily on cash conversion, promoter dependence and working-capital discipline. Corporate lending shifts the centre of gravity to enterprise cash flow, capital structure, group dependencies and refinancing risk.
 
-MSME
-→ cash conversion
-→ promoter dependence
-→ working-capital discipline
-
-Corporate
-→ enterprise cash flow
-→ capital structure
-→ group and refinancing risk
-```
-
-### Mental model
-
-```text
-Same risk dimensions
-→ PD + LGD + EAD
-
-Different evidence
-→ segment-specific underwriting
-```
+The risk dimensions do not change with segment: likelihood, severity and exposure remain separate. What changes is the evidence available and the judgement required to interpret it.
 
 ## 3. Customer, borrower, obligor, group, account and facility are different objects
+
+The grain matters because different questions attach to different objects. Default can be governed at an obligor level, account conduct is observed at account level, facility terms determine contractual availability, and concentration requires connected entities to be aggregated beyond the legal borrower.
 
 | Object | Meaning | Main credit use | Typical grain |
 |---|---|---|---|
@@ -163,22 +122,6 @@ Different evidence
 | Guarantor | Party promising payment support | Recovery and CRM | Support provider |
 | Collateral provider | Party providing secured asset | Security enforceability | Asset owner |
 
-```text
-CUSTOMER
-   ↓
-BORROWER / OBLIGOR
-   ↓
-GROUP
-   ↓
-PRODUCT
-   ↓
-FACILITY
-   ↓
-ACCOUNT
-   ↓
-EXPOSURE
-```
-
 ### Never confuse
 
 ```text
@@ -193,6 +136,8 @@ Guarantor ≠ Borrower
 
 ## 4. Balance, exposure and commitment are different quantities
 
+A current balance records what is funded now. Credit risk also has to ask what can still be drawn and what contingent obligation can become funded before or at default. That is why commitment and exposure concepts cannot be replaced by the accounting balance alone.
+
 | Quantity | Contains | Excludes / caveat | Main use |
 |---|---|---|---|
 | Sanction | Approved contractual ceiling | Availability conditions may remain | Credit authority |
@@ -203,17 +148,6 @@ Guarantor ≠ Borrower
 | Contingent amount | Non-funded obligation | Funding only after trigger | Off-balance-sheet exposure |
 | Exposure | Economic amount at risk | Depends on question | Risk measurement |
 | EAD | Expected exposure at default | Not necessarily current balance | EL and capital |
-
-```text
-Funded exposure
-→ cash already advanced
-
-Undrawn commitment
-→ possible future cash advance
-
-Contingent facility
-→ possible funded obligation after trigger
-```
 
 ### Never confuse
 
@@ -256,18 +190,11 @@ Undrawn ≠ Risk-free
 | Non-fund | Bank guarantee | Payment after valid invocation | Applicant + beneficiary event | Contingent → funded |
 | Non-fund | Co-acceptance | Payment if buyer fails | Buyer + bill | Contingent → funded |
 | Commitment | Undrawn cancellable line | Availability can cease | Draw propensity | Regulatory / internal conversion |
-| Commitment | Undrawn committed line | Bank remains committed | Stress drawdown | CCF × undrawn |
+| Commitment | Undrawn committed line | Bank remains committed | Stress drawdown | CCF on undrawn |
 
 ### Spine case — Shakti Components Private Limited
 
-```text
-Borrower          Shakti Components Private Limited
-Business          auto-component manufacturer
-Facility          cash credit
-Sanctioned limit  ₹8.00 crore
-Primary source    operating cash conversion
-Security          stock + receivables + collateral property
-```
+Shakti Components Private Limited is an auto-component manufacturer with an ₹8.00 crore cash-credit sanction. Its primary repayment source is operating cash conversion; downside support comes from stock, receivables and collateral property.
 
 ## 6. Amortising, bullet, revolving and contingent facilities fail differently
 
@@ -295,17 +222,13 @@ Contingent stress
 → collection starts against applicant
 ```
 
-### Spine case
-
-```text
-Cash credit
-→ revolving structure
-→ sanction remains ₹8.00 crore
-→ availability constrained by drawing power
-→ stress can increase drawing before NPA
-```
+Shakti Components carries a cash-credit facility. Its ₹8.00 crore sanction is revolving, availability is constrained by drawing power, and stress can increase funded use before the account becomes NPA.
 
 ## 7. Primary repayment source comes before collateral
+
+A credit structure is sustainable only when the normal cash-generating activity can meet the contractual obligation. Collateral is realised after the normal repayment mechanism has failed, usually with delay, cost and uncertainty. Strong security can therefore reduce severity without making a weak repayment source acceptable.
+
+The underwriting judgement weighs recurrence and visibility of cash flow, sensitivity to stress, refinancing dependence and the point at which repayment would require asset sale rather than business cash. Collateral then tests the downside: value, control, priority, enforceability and time to recovery.
 
 | Question | Primary source | Secondary source |
 |---|---|---|
@@ -322,7 +245,7 @@ Credit decision
 → test sustainability
 → stress cash flow
 → structure facility
-→ test collateral only for downside
+→ test collateral for downside
 ```
 
 ### Permanent trap
@@ -334,17 +257,11 @@ Guarantee ≠ operating cash flow
 Security surplus ≠ repayment capacity
 ```
 
-### Mental model
-
-```text
-Repayment source
-→ prevents default
-
-Collateral
-→ reduces loss after default
-```
-
 ## 8. Underwriting evidence changes by borrower segment
+
+Underwriting is not a hunt for one decisive metric. Evidence is weighed as a coherent repayment story: capacity to pay, willingness and history of payment, stability of the cash source, existing leverage, and whether the proposed structure remains serviceable under plausible stress.
+
+Collateral changes the downside but does not repair an underwriting gap in sustainable repayment. A refer decision exists because uncertainty can be resolvable: missing evidence, inconsistent bureau data, unexplained account conduct or a structure that can be tightened without changing the economic borrower risk.
 
 | Area | Retail | MSME | Corporate |
 |---|---|---|---|
@@ -375,11 +292,12 @@ Identity + bureau tradelines
 → approve / refer / decline
 ```
 
+### Never confuse
+
 ```text
-Bureau score
-≠ lender application score
-≠ internal rating
-≠ approval decision
+Bureau score ≠ Lender application score
+Lender application score ≠ Internal rating
+Internal rating ≠ Approval decision
 ```
 
 ### Underwriting decision table
@@ -393,17 +311,26 @@ Bureau score
 
 ## 9. Profit does not service debt — cash does
 
+Profitability is an accounting starting point. Debt service depends on cash remaining after interest, tax, working-capital absorption and capital expenditure. A profitable borrower can therefore become more dependent on bank funding when receivables or inventory absorb cash faster than earnings replenish it.
+
 ```text
-Revenue
-− operating costs
-=
-EBITDA
-− cash interest
-− cash tax
-− working-capital investment
-− capex
-=
-Free cash flow
+Free Cash Flow = EBITDA − Cash Interest − Cash Tax − Working-Capital Investment − Capex
+
+EBITDA   operating earnings before interest, tax, depreciation and amortisation
+CI       cash interest
+CT       cash tax
+WCI      cash absorbed by working-capital investment
+Capex    cash capital expenditure
+FCF      free cash flow after these cash uses
+
+Worked
+EBITDA   ₹6.00 crore
+CI       ₹0.90 crore
+CT       ₹0.60 crore
+WCI      ₹2.40 crore
+Capex    ₹0.90 crore
+
+₹6.00 crore − ₹0.90 crore − ₹0.60 crore − ₹2.40 crore − ₹0.90 crore = ₹1.20 crore
 ```
 
 | Accounting signal | Credit translation |
@@ -420,10 +347,8 @@ Free cash flow
 
 ```text
 Profit ↑
-+
-Receivables ↑↑
-+
-Inventory ↑↑
++ receivables ↑↑
++ inventory ↑↑
 → cash conversion weakens
 → debt dependence can rise
 ```
@@ -439,37 +364,213 @@ Cash balance ≠ Recurring repayment capacity
 
 ## 10. Ratios answer different credit questions
 
-| Metric | Formula | Measures | Main failure mode |
-|---|---|---|---|
-| Revenue growth | `(Current revenue − prior revenue) / prior revenue` | Sales direction | Growth without cash conversion |
-| Gross margin | `Gross profit / revenue` | Pricing + direct cost | Mix and accounting effects |
-| EBITDA margin | `EBITDA / revenue` | Operating profitability | Ignores capex + working capital |
-| Debt / EBITDA | `Gross debt / EBITDA` | Gross leverage | Weak for volatile EBITDA |
-| Net debt / EBITDA | `(Debt − usable cash) / EBITDA` | Leverage after liquidity | Cash may be trapped / restricted |
-| Interest coverage | `EBITDA or EBIT / interest` | Interest service | Ignores principal |
-| DSCR | `Cash available for debt service / debt service` | Principal + interest service | Definition varies by policy |
-| Current ratio | `Current assets / current liabilities` | Near-term balance-sheet liquidity | Asset quality ignored |
-| Receivable days | `Receivables / revenue x 365` | Collection speed | Seasonality / tax effects |
-| Inventory days | `Inventory / COGS x 365` | Stock holding | Obsolescence hidden |
-| Payable days | `Payables / COGS x 365` | Supplier credit | Stretch may signal stress |
-| Cash conversion cycle | `Receivable days + inventory days − payable days` | Working-capital duration | Sector comparison required |
-| LTV | `Loan / collateral value` | Collateral leverage | Valuation basis dominates |
-| Facility utilisation | `Drawn / operative limit` | Liquidity usage | Limit may exceed drawing power |
-| Collateral coverage | `Realisable collateral / exposure` | Recovery cushion | Enforceability + costs ignored |
-| Recovery rate | `Net recovery / defaulted exposure` | Realised recovery | Timing ignored |
-| Expected loss rate | `PD x LGD` | Average loss fraction | EAD omitted |
-| Capital ratio | `Eligible capital / RWA` | Prudential capitalisation | Not a liquidity measure |
+| Metric | Measures | Main failure mode |
+|---|---|---|
+| Revenue growth | Sales direction | Growth without cash conversion |
+| Gross margin | Pricing + direct cost | Mix and accounting effects |
+| EBITDA margin | Operating profitability | Ignores capex + working capital |
+| Debt / EBITDA | Gross leverage | Weak for volatile EBITDA |
+| Net debt / EBITDA | Leverage after liquidity | Cash may be trapped / restricted |
+| Interest coverage | Interest service | Ignores principal |
+| DSCR | Principal + interest service | Definition varies by policy |
+| Current ratio | Near-term balance-sheet liquidity | Asset quality ignored |
+| Receivable days | Collection speed | Seasonality / tax effects |
+| Inventory days | Stock holding | Obsolescence hidden |
+| Payable days | Supplier credit | Stretch may signal stress |
+| Cash conversion cycle | Working-capital duration | Sector comparison required |
+| LTV | Collateral leverage | Valuation basis dominates |
+| Facility utilisation | Liquidity usage | Limit may exceed drawing power |
+| Collateral coverage | Recovery cushion | Enforceability + costs ignored |
+| Recovery rate | Realised recovery | Timing ignored |
+| Expected loss rate | Average loss fraction | EAD omitted |
+| Capital ratio | Prudential capitalisation | Not a liquidity measure |
+
+The worked ratio set below illustrates mechanics only. It is not additional Shakti spine-case data. A ratio is interpreted only after the numerator, denominator, observation date and comparison basis are fixed; the same numeric value can carry different meaning across sectors and facility structures.
 
 ```text
-Ratio
-→ numerator definition
-→ denominator definition
-→ observation date
-→ peer / history
-→ covenant / policy context
+Revenue Growth = (Current Revenue − Prior Revenue) / Prior Revenue
+
+CR    current-period revenue
+PR    prior-period revenue
+RG    revenue growth
+
+Worked
+CR    ₹24.00 crore
+PR    ₹20.00 crore
+
+(₹24.00 crore − ₹20.00 crore) / ₹20.00 crore = 20.0%
+```
+
+```text
+Gross Margin = Gross Profit / Revenue
+
+GP    gross profit
+R     revenue
+GM    gross margin
+
+Worked
+GP    ₹7.20 crore
+R     ₹24.00 crore
+
+₹7.20 crore / ₹24.00 crore = 30.0%
+```
+
+```text
+EBITDA Margin = EBITDA / Revenue
+
+EBITDA   operating earnings before interest, tax, depreciation and amortisation
+R        revenue
+EM       EBITDA margin
+
+Worked
+EBITDA   ₹3.60 crore
+R        ₹24.00 crore
+
+₹3.60 crore / ₹24.00 crore = 15.0%
+```
+
+```text
+Debt / EBITDA = Gross Debt / EBITDA
+
+D        gross interest-bearing debt
+EBITDA   operating earnings before interest, tax, depreciation and amortisation
+DE       gross leverage multiple
+
+Worked
+D        ₹9.00 crore
+EBITDA   ₹3.60 crore
+
+₹9.00 crore / ₹3.60 crore = 2.50x
+```
+
+```text
+Net Debt / EBITDA = (Gross Debt − Usable Cash) / EBITDA
+
+D        gross interest-bearing debt
+C        usable cash
+EBITDA   operating earnings before interest, tax, depreciation and amortisation
+NDE      net leverage multiple
+
+Worked
+D        ₹9.00 crore
+C        ₹1.00 crore
+EBITDA   ₹3.60 crore
+
+(₹9.00 crore − ₹1.00 crore) / ₹3.60 crore = 2.22x
+```
+
+```text
+Interest Coverage = EBITDA / Cash Interest
+
+EBITDA   operating earnings before interest, tax, depreciation and amortisation
+I        cash interest expense
+IC       interest coverage multiple
+
+Worked
+EBITDA   ₹3.60 crore
+I        ₹0.90 crore
+
+₹3.60 crore / ₹0.90 crore = 4.00x
+```
+
+```text
+DSCR = Cash Available for Debt Service / Debt Service
+
+CADS   cash available for debt service under the stated definition
+DS     principal + interest debt service under the stated definition
+DSCR   debt-service coverage ratio
+
+Worked
+CADS   ₹2.70 crore
+DS     ₹1.80 crore
+
+₹2.70 crore / ₹1.80 crore = 1.50x
+```
+
+```text
+Current Ratio = Current Assets / Current Liabilities
+
+CA    current assets
+CL    current liabilities
+CR    current ratio
+
+Worked
+CA    ₹12.00 crore
+CL    ₹8.00 crore
+
+₹12.00 crore / ₹8.00 crore = 1.50x
+```
+
+```text
+Receivable Days = Receivables / Revenue x 365
+
+AR    trade receivables
+R     annual revenue
+RD    receivable days
+
+Worked
+AR    ₹4.80 crore
+R     ₹24.00 crore
+
+₹4.80 crore / ₹24.00 crore x 365 = 73.0 days
+```
+
+```text
+Inventory Days = Inventory / COGS x 365
+
+INV   inventory
+COGS  annual cost of goods sold
+ID    inventory days
+
+Worked
+INV   ₹6.00 crore
+COGS  ₹18.00 crore
+
+₹6.00 crore / ₹18.00 crore x 365 = 121.7 days
+```
+
+```text
+Payable Days = Payables / COGS x 365
+
+AP    trade payables
+COGS  annual cost of goods sold
+PD    payable days
+
+Worked
+AP    ₹3.00 crore
+COGS  ₹18.00 crore
+
+₹3.00 crore / ₹18.00 crore x 365 = 60.8 days
+```
+
+```text
+Cash Conversion Cycle = Receivable Days + Inventory Days − Payable Days
+
+RD    receivable days
+ID    inventory days
+PD    payable days
+CCC   cash conversion cycle
+
+Worked
+RD    73.0 days
+ID    121.7 days
+PD    60.8 days
+
+73.0 + 121.7 − 60.8 = 133.9 days
+```
+
+```text
+Ratio selected
+→ definitions fixed
+→ observation date fixed
+→ history and peers compared
+→ covenant / policy context applied
+→ credit meaning judged
 ```
 
 ## 11. Facility structure allocates credit risk
+
+Structure translates the cash-flow assessment into contractual controls. Amount and tenor determine how much repayment pressure is created; amortisation decides how quickly exposure falls; limits and drawing power govern revolving availability; covenants and conditions create intervention points before outright payment failure.
 
 | Structure lever | Credit effect | Failure signal |
 |---|---|---|
@@ -496,17 +597,11 @@ Ratio
 | Contingent contractual obligation | LC / guarantee |
 | Refinancing-only repayment | High maturity risk + stronger controls |
 
-### Spine case
-
-```text
-Sanctioned CC limit  ₹8.00 crore
-Opening drawing power ₹6.50 crore
-Opening draw           ₹5.80 crore
-Undrawn to sanction    ₹2.20 crore
-Utilisation             72.5%
-```
+For Shakti Components, the ₹8.00 crore cash-credit sanction is a revolving envelope rather than a promise that the full amount is always drawable. Opening drawing power is ₹6.50 crore and opening draw is ₹5.80 crore; the quantitative relationship is carried with the exposure mechanics.
 
 ## 12. Collateral changes recovery more directly than default probability
+
+Collateral analysis asks what value remains available after valuation uncertainty, enforcement delay, costs and priority claims. The appraisal number is therefore only an input. Recovery depends on the realisable value of an asset the bank can actually reach and realise.
 
 | Collateral class | Examples | Value basis | Main failure mode | Main LGD effect |
 |---|---|---|---|---|
@@ -535,18 +630,48 @@ Utilisation             72.5%
 | Letter of comfort | Behavioural / contractual support | Wording + legal effect |
 
 ```text
-Borrower weakness
-→ PD can rise
+LTV = Loan Amount / Collateral Value
 
-Collateral strength
-→ recovery can improve
-→ LGD can fall
+L       loan amount under the stated measure
+CV      collateral value under the stated valuation basis
+LTV     loan-to-value ratio
 
-Collateral strength
-≠ automatic PD reduction
+Worked
+L       ₹6.00 crore
+CV      ₹8.00 crore
+
+₹6.00 crore / ₹8.00 crore = 75.0%
+```
+
+```text
+Collateral Coverage = Realisable Collateral / Exposure
+
+RC      realisable collateral value
+E       exposure under the stated measure
+CC      collateral coverage ratio
+
+Worked
+RC      ₹4.50 crore
+E       ₹6.00 crore
+
+₹4.50 crore / ₹6.00 crore = 75.0%
+```
+
+LTV and collateral coverage look at the same economic cushion from opposite directions, but neither is LGD. LGD also reflects priority, recovery costs, time and any value obtained from other recovery sources.
+
+### Permanent trap
+
+```text
+High collateral value ≠ Strong borrower
+Low LTV ≠ Low PD
+Collateral coverage ≠ Enforceable recovery
 ```
 
 ## 13. Security value without enforceable security is incomplete protection
+
+Collateral value and enforceable security answer different questions. The first is economic: what could the asset be worth on recovery? The second is legal and operational: does the lender have a valid, perfected and maintainable route to that value?
+
+A practitioner therefore weighs ownership, authority to encumber, correct creation of the security interest, registration or notice where required, document control, priority against competing claims and continuing compliance after disbursement. A large valuation cannot compensate for a defect that prevents or delays access to the asset.
 
 | Security-interest / charge type | Asset / right | Possession | Creation logic | Main perfection issue |
 |---|---|---|---|---|
@@ -595,24 +720,22 @@ Negative lien ≠ Security interest
 | Unsecured | No specific charged asset | General creditor recovery | Low recovery certainty |
 
 ```text
-Gross asset value
-− enforcement costs
-− prior-ranking claims
-=
-value available to current rank
+Value Available to Current Rank = Gross Asset Value − Enforcement Costs − Prior-Ranking Claims
+
+GAV    gross realisable asset value
+EC     enforcement and realisation costs
+PRC    claims ranking ahead of the current lender
+VACR   value available to the current rank
+
+Worked
+GAV    ₹6.00 crore
+EC     ₹0.60 crore
+PRC    ₹2.40 crore
+
+₹6.00 crore − ₹0.60 crore − ₹2.40 crore = ₹3.00 crore
 ```
 
-```text
-Same property
-+
-same valuation
-≠
-same LGD
-
-Priority changes recovery waterfall
-```
-
-### Mental model
+Priority changes which lender reaches the recovery pool first. Two facilities can therefore share the same property valuation yet have different recovery expectations because one sits behind prior claims or shares first rank with other lenders.
 
 ```text
 Value
@@ -625,19 +748,7 @@ Value
 
 ## 15. Sanction limit, drawing power, outstanding and EAD are not substitutes
 
-```text
-Sanctioned limit
-→ contractual ceiling
-
-Drawing power
-→ current eligible ceiling
-
-Outstanding
-→ current funded use
-
-EAD
-→ expected amount at default
-```
+Drawing power answers how much of the sanctioned revolving line is currently supported by the eligible borrowing base. Sanction remains the contractual ceiling; the borrower cannot infer current availability from sanction alone.
 
 | Spine-case point | Amount | Credit meaning |
 |---|---:|---|
@@ -648,6 +759,62 @@ EAD
 | Stressed drawing power | ₹5.20 crore | Reduced eligible borrowing base |
 | Stressed outstanding | ₹5.90 crore | Funded exposure after stress draw |
 | Excess over drawing power | ₹0.70 crore | Irregular amount |
+
+```text
+Drawing Power = Min(Sanctioned Limit, Eligible Borrowing Base)
+
+SL    sanctioned contractual ceiling
+EBB   eligible borrowing base after applicable margins and exclusions
+DP    drawing power
+
+Worked
+SL    ₹8.00 crore
+EBB   ₹6.50 crore
+
+Min(₹8.00 crore, ₹6.50 crore) = ₹6.50 crore
+```
+
+```text
+Utilisation = Drawn Amount / Operative Limit
+
+D     drawn funded amount
+OL    operative facility limit used for the ratio
+U     utilisation rate
+
+Worked
+D     ₹5.80 crore
+OL    ₹8.00 crore
+
+₹5.80 crore / ₹8.00 crore = 72.5%
+```
+
+```text
+Undrawn Amount = Sanctioned Limit − Drawn Amount
+
+SL    sanctioned contractual ceiling
+D     drawn funded amount
+UD    undrawn amount to sanction
+
+Worked
+SL    ₹8.00 crore
+D     ₹5.80 crore
+
+₹8.00 crore − ₹5.80 crore = ₹2.20 crore
+```
+
+```text
+Excess over Drawing Power = Max(Outstanding − Drawing Power, 0)
+
+O     funded outstanding
+DP    drawing power
+EX    amount above drawing power
+
+Worked
+O     ₹5.90 crore
+DP    ₹5.20 crore
+
+Max(₹5.90 crore − ₹5.20 crore, 0) = ₹0.70 crore
+```
 
 ```text
 ₹8.00 crore sanction
@@ -669,6 +836,8 @@ Irregular amount ≠ Total exposure
 ```
 
 ## 16. Monitoring searches for deterioration before contractual failure
+
+Monitoring works because contractual default is a late signal. The useful question is whether repayment capacity, willingness, liquidity or recovery quality is weakening before the payment clock reaches a terminal state. Different signals therefore point to different responses rather than one mechanical escalation rule.
 
 | Signal family | Examples | Interpretation | Response |
 |---|---|---|---|
@@ -695,15 +864,7 @@ Aggregate exposure with lender ≥ ₹5 crore
 → preceding working day if Friday holiday
 ```
 
-### Spine case
-
-```text
-Shakti exposure > ₹5 crore
-→ CRILC population
-→ drawing power falls
-→ outstanding stays above drawing power
-→ monitoring becomes regulatory reporting input
-```
+Shakti exceeds the ₹5 crore CRILC exposure threshold. As its drawing power falls while outstanding remains above drawing power, the same deterioration that drives internal monitoring also enters the regulatory reporting apparatus.
 
 ## 17. Arrears, DPD and SMA run escalation clocks
 
@@ -760,6 +921,8 @@ DPD ≠ Arrears amount
 
 ## 18. Default, NPA and credit-impaired are different regimes
 
+The regimes can converge on the same distressed borrower without becoming the same definition. Contractual default asks whether a due obligation has not been paid. RBI NPA applies a prudential overdue or out-of-order test. Internal default and credit-impaired status use their own governed purposes and evidence.
+
 | Regime | Trigger basis | Unit | Main use |
 |---|---|---|---|
 | Contractual / resolution default | Debt due and payable but unpaid | Debt / borrower | Stress recognition + resolution |
@@ -767,26 +930,7 @@ DPD ≠ Arrears amount
 | Internal default | Bank-governed default definition | Obligor / facility by policy | Rating + PD + collections |
 | Credit-impaired | Ind AS 109 accounting evidence | Financial asset | ECL measurement for Ind AS reporters |
 
-```text
-Payment failure
-→ can satisfy contractual default
-
-Time / conduct test
-→ can satisfy RBI NPA rule
-
-Credit evidence
-→ can satisfy internal default / credit-impaired test
-```
-
-### Spine case
-
-```text
-Shakti
-→ continuous CC irregularity
-→ out-of-order condition completed
-→ RBI NPA
-→ substandard classification starts
-```
+Shakti completes the cash-credit out-of-order condition after continuous irregularity. That event places the account in RBI NPA classification and starts the substandard period; it does not by itself define every other default or accounting state.
 
 ### Never confuse
 
@@ -849,6 +993,78 @@ Default ≠ 100% loss
 | UFCE >50% to 75% | 60 bps incremental |
 | UFCE >75% | 80 bps incremental |
 
+Provisioning converts a classification state into a prudential loss charge. The rate does not estimate PD: it follows the regulatory classification, category, security treatment and ageing rules. Doubtful assets require the secured and uncovered portions to be separated because the two portions carry different prescribed treatment.
+
+```text
+Substandard Provision = Exposure x Provision Rate
+
+E       exposure subject to the stated substandard rate
+PR      prescribed provision rate for that exposure category
+PROV    resulting provision
+
+Worked
+E       ₹6.00 crore
+PR      15%
+
+₹6.00 crore x 15% = ₹0.90 crore = ₹90 lakh
+```
+
+```text
+Unsecured Portion = Max(Exposure − Realisable Security, 0)
+
+E     exposure under the provisioning calculation
+RS    realisable security recognised for the calculation
+UP    unsecured / uncovered portion
+
+Worked
+E     ₹6.00 crore
+RS    ₹3.60 crore
+
+Max(₹6.00 crore − ₹3.60 crore, 0) = ₹2.40 crore
+```
+
+```text
+Secured Provision = Secured Portion x Secured Provision Rate
+
+SP      secured portion subject to the stated rate
+SPR     secured provision rate
+SPROV   provision on secured portion
+
+Worked
+SP      ₹3.60 crore
+SPR     25%
+
+₹3.60 crore x 25% = ₹0.90 crore
+```
+
+```text
+Unsecured Provision = Unsecured Portion x Unsecured Provision Rate
+
+UP      unsecured / uncovered portion
+UPR     unsecured provision rate
+UPROV   provision on unsecured portion
+
+Worked
+UP      ₹2.40 crore
+UPR     100%
+
+₹2.40 crore x 100% = ₹2.40 crore
+```
+
+```text
+Total Provision = Secured Provision + Unsecured Provision
+
+SPROV   provision on secured portion
+UPROV   provision on unsecured portion
+TPROV   total provision
+
+Worked
+SPROV   ₹0.90 crore
+UPROV   ₹2.40 crore
+
+₹0.90 crore + ₹2.40 crore = ₹3.30 crore
+```
+
 ```text
 Security realisable value < 50% of last assessed / accepted value
 → significant erosion
@@ -861,27 +1077,15 @@ Security realisable value < 10% of outstanding
 
 ### Spine case
 
-```text
-NPA outstanding       ₹6.00 crore
-Classification        substandard
-Realisable security   ₹4.50 crore
-Provision rate        15%
-Provision             ₹0.90 crore = ₹90 lakh
-```
+At first NPA classification, Shakti has ₹6.00 crore outstanding, remains substandard and carries ₹4.50 crore realisable security. The spine-case provision is ₹0.90 crore, or ₹90 lakh, on the stated 15% basis above.
 
-Later deterioration:
-
-```text
-Remains NPA >12 months
-→ doubtful
-→ realisable security ₹3.60 crore
-→ unsecured portion   ₹2.40 crore
-→ first doubtful year secured provision 25% x ₹3.60 crore = ₹0.90 crore
-→ unsecured provision 100% x ₹2.40 crore = ₹2.40 crore
-→ total provision ₹3.30 crore
-```
+After more than 12 months as NPA, the account becomes doubtful. Realisable security has fallen to ₹3.60 crore, leaving ₹2.40 crore uncovered; the first doubtful-year rates produce ₹0.90 crore on the secured portion and ₹2.40 crore on the uncovered portion, for ₹3.30 crore total provision.
 
 ## 20. Cure, upgrade, regularisation and restructuring are different transitions
+
+Regularisation answers a narrow conduct question: is the present irregularity gone? Cure is an internal governed judgement about whether the borrower has returned to an acceptable credit state. NPA upgrade is a prudential classification transition and therefore follows the RBI upgrade condition rather than a bank's internal cure label.
+
+The distinction matters because partial payment can improve current conduct without reversing the prudential state. A practitioner weighs whether the payment removes the entire relevant arrears, whether other facilities with the bank remain irregular, whether repayment capacity has actually stabilised, and whether a restructuring has changed the contractual path rather than restored the original one.
 
 | Transition | Meaning | RBI / credit consequence |
 |---|---|---|
@@ -893,17 +1097,11 @@ Remains NPA >12 months
 | Technical write-off | Accounting removal from branch / books treatment | Recovery claim can remain |
 
 ```text
-Irregular today
-→ paid tomorrow
-→ regularised
-
-NPA
-→ partial arrears paid
-→ still NPA
-
-NPA
-→ entire arrears across facilities paid
-→ eligible for upgrade to standard
+NPA account
+        ├─ partial arrears paid → remains NPA
+        └─ entire arrears across facilities paid
+                              ↓
+                     eligible for upgrade
 ```
 
 ### Never confuse
@@ -927,6 +1125,8 @@ Technical write-off ≠ Forgiveness
 | Calibration | PIT / TTC / accounting / capital context |
 | Model / rating | How risk is estimated |
 
+PD is a probability attached to a defined borrower, horizon, default definition and observation date. Without those coordinates, the percentage cannot be interpreted or compared.
+
 ```text
 Borrower evidence
 → score / rating factors
@@ -934,23 +1134,9 @@ Borrower evidence
 → calibrated PD
 ```
 
-```text
-PIT PD
-→ stronger current-condition sensitivity
+PIT PD is more sensitive to current conditions; TTC PD is smoother through the cycle. The labels therefore describe calibration context, not a different loss dimension.
 
-TTC PD
-→ smoother cycle sensitivity
-```
-
-### Spine case
-
-```text
-Shakti internal one-year PD
-→ 5.0%
-→ illustrative bank estimate
-→ not RBI NPA probability
-→ not external rating
-```
+Shakti's illustrative internal one-year PD is 5.0%. It is a bank estimate for the spine case, not the RBI NPA status, an external rating or a regulatory risk weight.
 
 ### Never confuse
 
@@ -963,20 +1149,18 @@ Low PD ≠ Low LGD
 
 ## 22. LGD measures severity after default
 
-```text
-Defaulted exposure
-− gross recoveries
-− recovery costs
-− time-value effect where model requires
-=
-loss after recovery
-```
+LGD asks how much of exposure is not recovered after default on the model's stated basis. The estimate therefore depends on recovery sources and waterfall position, but also on how recoveries are valued after costs and timing effects.
 
 ```text
-LGD ≈ 1 − Net Recovery Rate
+Simple LGD = 1 − Net Recovery Rate
 
-LGD                loss given default
-Net Recovery Rate  net recovered value / defaulted exposure
+NRR   net recovery rate on the same exposure and valuation basis
+LGD   simple loss-given-default rate on that basis
+
+Worked
+NRR   60.0%
+
+1 − 60.0% = 40.0%
 ```
 
 | LGD driver | Lower-loss tendency | Higher-loss tendency |
@@ -989,16 +1173,7 @@ Net Recovery Rate  net recovered value / defaulted exposure
 | Costs | Low | High |
 | Jurisdiction / process | Predictable enforcement | Delayed / contested enforcement |
 
-### Spine case
-
-```text
-Shakti internal LGD
-→ 40.0%
-→ illustrative pre-default estimate
-
-Model recovery assumption
-→ 60.0%
-```
+Shakti's illustrative internal LGD is 40.0%, paired with a simple 60.0% model recovery assumption. It is a pre-default estimate; the realised loss rate can differ once actual collections, enforcement costs and timing are known.
 
 ### Never confuse
 
@@ -1012,32 +1187,22 @@ Guarantee amount ≠ Cash recovered
 ## 23. EAD measures exposure at the default point
 
 ```text
-Amortising facility
-→ projected outstanding at default
+EAD = Drawn Amount + CCF x Undrawn Amount
 
-Revolving facility
-→ drawn amount + expected future drawing
+D      drawn funded amount at observation
+CCF    conversion factor applied to undrawn amount
+UD     undrawn available amount before default
+EAD    exposure at default
+
+Worked
+D      ₹5.80 crore
+CCF    25%
+UD     ₹2.20 crore
+
+₹5.80 crore + 25% x ₹2.20 crore = ₹6.35 crore
 ```
 
-```text
-EAD = Drawn + CCF x Undrawn
-
-CCF      conversion factor for undrawn amount
-Drawn    funded amount at observation
-Undrawn  available commitment before default
-```
-
-### Spine case
-
-```text
-Opening drawn            ₹5.80 crore
-Undrawn to sanction      ₹2.20 crore
-Illustrative internal CCF 25%
-
-EAD
-= ₹5.80 crore + 25% x ₹2.20 crore
-= ₹6.35 crore
-```
+For an amortising facility, EAD follows the projected balance path. For a revolving facility, current drawn exposure is incomplete because the borrower can use remaining commitment before default. The conversion factor captures that additional draw assumption.
 
 The 25% CCF is an illustrative internal modelling assumption for the spine case, not an RBI regulatory CCF.
 
@@ -1052,43 +1217,53 @@ Undrawn amount ≠ Zero exposure
 
 ## 24. Expected loss combines different dimensions
 
-| Parameter | Question | Main grain | Spine case |
-|---|---|---|---:|
-| PD | Will default happen | Obligor | 5.0% |
-| LGD | How much is lost if default occurs | Facility | 40.0% |
-| EAD | How much is exposed at default | Facility | ₹6.35 crore |
+### Credit-parameter census
+
+| Parameter | Form | Credit use |
+|---|---|---|
+| Score | Numeric model output | Rank risk |
+| Grade | Ordered risk bucket | Policy + monitoring |
+| Internal rating | Bank-assigned credit assessment | Underwriting + portfolio management |
+| PD | Probability | Default likelihood |
+| LGD | Loss fraction | Default severity |
+| EAD | Currency exposure | Default-point exposure |
+| CCF | Conversion factor | Undrawn-to-exposure conversion |
+| Recovery rate | Realised recovery fraction | Workout outcome |
+| Expected loss rate | Loss fraction | Average expected credit cost |
+
+Expected loss combines frequency, severity and exposure size. PD cannot substitute for LGD, and neither says how much money is at risk; the product becomes economically meaningful only when all three dimensions are on compatible definitions and horizons.
 
 ```text
 Expected Loss Rate = PD x LGD
+
+PD    probability of default over the stated horizon
+LGD   loss given default as fraction of exposure
+ELR   expected loss rate
+
+Worked
+PD    5.0%
+LGD   40.0%
+
+5.0% x 40.0% = 2.0%
+```
+
+```text
 Expected Loss Amount = PD x LGD x EAD
 
-PD    probability of default over the horizon
+PD    probability of default over the stated horizon
 LGD   loss given default as fraction of exposure
 EAD   exposure at default
+ELA   expected loss amount
+
+Worked
+PD    5.0%
+LGD   40.0%
+EAD   ₹6.35 crore
+
+5.0% x 40.0% x ₹6.35 crore = ₹0.127 crore = ₹12.70 lakh
 ```
 
-```text
-Spine case
-
-5.0% x 40.0% x ₹6.35 crore
-= 2.0% x ₹6.35 crore
-= ₹0.127 crore
-= ₹12.70 lakh
-```
-
-```text
-PD
-→ frequency dimension
-
-LGD
-→ severity dimension
-
-EAD
-→ size dimension
-
-EL
-→ average expected credit cost
-```
+The spine case therefore has a 2.0% expected loss rate and ₹12.70 lakh expected loss amount. These are modelling outputs, not the RBI prudential provision and not the realised loss after workout.
 
 ### Permanent trap
 
@@ -1101,15 +1276,6 @@ Expected loss ≠ Capital requirement
 
 ## 25. Score, grade, rating and PD form a chain — not synonyms
 
-| Object | Form | Main use |
-|---|---|---|
-| Raw variable | Income / DPD / leverage / utilisation | Model input |
-| Score | Numeric model output | Rank risk |
-| Grade | Ordered bucket | Credit policy + monitoring |
-| Internal rating | Bank-assigned credit grade | Underwriting + portfolio management |
-| PD | Probability estimate | Loss measurement + risk differentiation |
-| External rating | ECAI opinion / grade | External assessment + SA input where eligible |
-
 ```text
 Inputs
 → model score
@@ -1118,16 +1284,9 @@ Inputs
 → decision / monitoring use
 ```
 
-```text
-Discrimination
-→ who is riskier
+A score is a numeric model output. A grade groups scores into ordered risk buckets, an internal rating is the bank's governed credit assessment, and PD attaches a probability estimate to a defined default event and horizon. External rating remains a separate ECAI assessment used for its own purposes.
 
-Calibration
-→ how risky
-
-Stability
-→ whether mapping still holds
-```
+Discrimination asks whether the model orders risk correctly. Calibration asks whether the probabilities attached to that ordering are numerically right. Stability asks whether the relationship continues to hold through time and changing populations. Strong performance on one dimension does not establish the others.
 
 ### Never confuse
 
@@ -1141,13 +1300,15 @@ Good ranking ≠ Good calibration
 
 ## 26. Ind AS 109 changes the accounting answer — not the underlying credit event
 
-For the commercial-bank lens, RBI IRACP remains the operative prudential classification and provisioning spine. Ind AS 109 is retained here only to locate the accounting ECL architecture used by Ind AS reporters.
+| Framework | State | Trigger basis | Main output |
+|---|---|---|---|
+| Ind AS 109 | Stage 1 | Performing without SICR | 12-month ECL |
+| Ind AS 109 | Stage 2 | Significant increase in credit risk | Lifetime ECL |
+| Ind AS 109 | Stage 3 | Credit-impaired | Lifetime ECL |
+| RBI IRACP | Standard | Performing prudential state | Prudential classification + provision |
+| RBI IRACP | NPA | Overdue / out-of-order rule | NPA classification + provision |
 
-| Ind AS 109 state | Credit state | Loss horizon |
-|---|---|---|
-| Stage 1 | Performing without SICR | 12-month ECL |
-| Stage 2 | Significant increase in credit risk | Lifetime ECL |
-| Stage 3 | Credit-impaired | Lifetime ECL |
+For the commercial-bank lens, RBI IRACP remains the operative prudential classification and provisioning spine. Ind AS 109 is retained here only to locate the accounting ECL architecture used by Ind AS reporters.
 
 ```text
 Credit-impaired?
@@ -1159,17 +1320,7 @@ Credit-impaired?
                 └─ No  → Stage 1
 ```
 
-```text
-RBI IRACP
-→ overdue / out-of-order
-→ NPA classification
-→ prudential provision
-
-Ind AS 109
-→ credit-risk change
-→ stage
-→ ECL
-```
+RBI IRACP routes overdue and out-of-order behaviour into prudential classification and provisioning. Ind AS 109 routes change in credit risk into an accounting stage and ECL horizon. The same borrower can therefore be described by both frameworks without the labels being interchangeable.
 
 ### Never confuse
 
@@ -1192,6 +1343,8 @@ Exposure
 → RWA
 → capital ratio
 ```
+
+Under the Standardised Approach, the regulatory route is external where an eligible ECAI assessment applies. A bank's internal rating still matters for underwriting and portfolio management, but it does not replace the prescribed external-rating mapping used to assign the Standardised Approach risk weight.
 
 ### RBI Standardised Approach exposure-class census
 
@@ -1264,9 +1417,40 @@ Eligible external rating
 | Netting where recognised | Reduce net exposure | Enforceable netting arrangement |
 
 ```text
+RWA = Credit Exposure x Regulatory Risk Weight
+
+CE    credit exposure after the applicable exposure measurement
+RW    regulatory risk weight
+RWA   risk-weighted assets for the worked simple exposure
+
+Worked
+CE    ₹6.00 crore
+RW    100%
+
+₹6.00 crore x 100% = ₹6.00 crore RWA
+```
+
+```text
+Capital Ratio = Eligible Capital / RWA
+
+EC    eligible regulatory capital under the stated ratio
+RWA   risk-weighted assets
+CR    capital ratio
+
+Worked
+EC    ₹0.90 crore
+RWA   ₹6.00 crore
+
+₹0.90 crore / ₹6.00 crore = 15.0%
+```
+
+### Never confuse
+
+```text
 Internal rating ≠ External rating
 External rating ≠ Regulatory risk weight
 Internal rating ≠ Regulatory risk weight
+Exposure ≠ RWA
 ```
 
 ## 28. Single-name risk becomes a regulatory large-exposure problem
@@ -1279,6 +1463,24 @@ Counterparty exposure
 → test regulatory ceiling
 ```
 
+Concentration risk asks a different question from standalone borrower PD: how much of the bank's capital can be impaired by one counterparty or a set of counterparties that can fail together. A low-PD name can still create an unacceptable concentration when the exposure is large enough.
+
+The connected-counterparty judgement is therefore economic as well as legal. Common control and economic dependence matter because separate legal entities do not diversify the bank if distress in one is likely to transmit to the others. The practitioner weighs both the size of the aggregate exposure and whether the names represent one underlying risk.
+
+```text
+Large Exposure Ratio = Aggregate Exposure / Eligible Tier 1 Capital
+
+AE      aggregate exposure value under the framework
+ET1     eligible Tier 1 capital
+LER     large-exposure ratio
+
+Worked
+AE      ₹0.90 crore
+ET1     ₹6.00 crore
+
+₹0.90 crore / ₹6.00 crore = 15.0%
+```
+
 | Large-exposure measure | RBI ceiling / trigger | Capital base |
 |---|---:|---|
 | Large-exposure identification | ≥10% | Eligible Tier 1 capital |
@@ -1287,20 +1489,17 @@ Counterparty exposure
 | Single counterparty with exceptional increment | ≤25% | Eligible Tier 1 capital |
 | Group of connected counterparties | ≤25% | Eligible Tier 1 capital |
 
-```text
-Single borrower
-≠ connected group
+### Never confuse
 
-Large exposure threshold
-≠ exposure ceiling
+```text
+Single borrower ≠ Connected group
+Large exposure threshold ≠ Exposure ceiling
 ```
 
 ```text
 Borrower A
-+
-Borrower B
-+
-common control / economic dependence
++ Borrower B
++ common control / economic dependence
 → connected-counterparty assessment
 → group exposure aggregation
 ```
@@ -1338,17 +1537,7 @@ Macro / sector shock
 → credit loss ↑
 ```
 
-```text
-Credit deterioration
-→ provisions ↑
-→ earnings / CET1 ↓
-
-Rating migration / default
-→ RWA can ↑
-
-Capital ratio
-→ numerator pressure + denominator pressure
-```
+Credit stress can hit both sides of the capital ratio. Higher provisions and losses pressure earnings and capital, while rating migration or default can increase RWA. The denominator and numerator can therefore move adversely at the same time rather than one simply offsetting the other.
 
 ### Never confuse
 
@@ -1361,22 +1550,16 @@ Management action ≠ Assumed rescue
 
 ## 30. Credit risk meets liquidity and model risk only at its boundaries
 
-### Credit ↔ liquidity boundary
+Borrower liquidity stress can become bank liquidity usage before it becomes credit loss. Revolving customers draw committed lines as internal cash buffers disappear, increasing EAD while also creating a bank cash outflow. The credit document stops at that interaction rather than teaching bank liquidity adequacy.
 
 ```text
 Borrower stress
 → CC / OD / card / RCF drawing ↑
 → EAD ↑
-+
-bank cash outflow ↑
++ bank cash outflow ↑
 ```
 
-```text
-Bank funding stress
-→ refinancing tightens
-→ borrower liquidity weakens
-→ PD can ↑
-```
+Bank funding stress can run in the opposite direction: tighter refinancing weakens borrower liquidity and can raise PD. That feedback is a credit consequence, not a replacement for the separate liquidity framework.
 
 ### Credit-model census
 
@@ -1392,13 +1575,12 @@ Bank funding stress
 | Credit stress model | Scenario loss | Stressed parameters / losses | Enterprise risk / credit risk |
 
 ```text
-Data
-+ assumptions
-+ methodology
-+ implementation
+Data + assumptions + methodology + implementation
 → model output
 → credit decision / loss estimate / capital input
 ```
+
+A model output is evidence inside a governed decision, not the decision itself. Credit judgement still weighs data quality, limitations, overrides and whether the model is being used for the purpose and population for which its output is meaningful.
 
 ### Never confuse
 
@@ -1439,22 +1621,63 @@ Default
 → residual loss
 ```
 
-### Spine case
-
 ```text
-Defaulted exposure        ₹6.00 crore
-Net collateral recovery  ₹3.60 crore
-Other cash recovery       ₹0.60 crore
-Total net recovery        ₹4.20 crore
-Recovery rate             70.0%
-Residual loss             ₹1.80 crore
-Realised loss rate        30.0%
+Net Recovery = Net Collateral Recovery + Other Net Cash Recovery
+
+NCR    net collateral recovery
+OCR    other net cash recovery
+NR     total net recovery
+
+Worked
+NCR    ₹3.60 crore
+OCR    ₹0.60 crore
+
+₹3.60 crore + ₹0.60 crore = ₹4.20 crore
 ```
 
 ```text
-Model LGD 40.0%
-≠ realised loss rate 30.0%
+Recovery Rate = Net Recovery / Defaulted Exposure
+
+NR    total net recovery
+DE    defaulted exposure
+RR    realised recovery rate
+
+Worked
+NR    ₹4.20 crore
+DE    ₹6.00 crore
+
+₹4.20 crore / ₹6.00 crore = 70.0%
 ```
+
+```text
+Residual Loss = Defaulted Exposure − Net Recovery
+
+DE    defaulted exposure
+NR    total net recovery
+RL    residual economic loss
+
+Worked
+DE    ₹6.00 crore
+NR    ₹4.20 crore
+
+₹6.00 crore − ₹4.20 crore = ₹1.80 crore
+```
+
+```text
+Loss Rate = Residual Loss / Defaulted Exposure
+
+RL    residual economic loss
+DE    defaulted exposure
+LR    realised loss rate
+
+Worked
+RL    ₹1.80 crore
+DE    ₹6.00 crore
+
+₹1.80 crore / ₹6.00 crore = 30.0%
+```
+
+Shakti's realised loss rate is 30.0%, while its earlier model LGD was 40.0%. The difference is the point of keeping estimate and outcome separate: workout converts uncertain recovery assumptions into actual cash and value realised.
 
 ## 32. Write-off, waiver, settlement and recovery are different outcomes
 
@@ -1468,11 +1691,9 @@ Model LGD 40.0%
 | Recovery | Cash / value received | Debt reduced | Realised value |
 | Residual loss | Exposure not recovered | Depends on legal closure | Economic loss |
 
-```text
-₹6.00 crore defaulted exposure
-− ₹4.20 crore net recovery
-= ₹1.80 crore residual loss
-```
+A write-off changes the accounting carrying of an amount; a waiver changes the creditor's claim; a settlement changes the terms on which the claim is discharged; recovery is the value actually collected. These outcomes matter separately because accounting closure, legal rights and economic loss do not occur at the same moment.
+
+### Never confuse
 
 ```text
 Default ≠ Write-off
@@ -1540,37 +1761,37 @@ Recovery ≠ Cure
 
 ### Spine-case numbers
 
-```text
-Sanction          ₹8.00 crore
-Opening DP        ₹6.50 crore
-Opening draw      ₹5.80 crore
-Undrawn           ₹2.20 crore
-Utilisation       72.5%
-Stressed DP       ₹5.20 crore
-Stressed draw     ₹5.90 crore
-Excess            ₹0.70 crore
-NPA outstanding   ₹6.00 crore
-NPA security      ₹4.50 crore
-Substandard prov  ₹0.90 crore / ₹90 lakh
-Doubtful security ₹3.60 crore
-Doubtful unsecured ₹2.40 crore
-Doubtful secured prov ₹0.90 crore
-Doubtful unsecured prov ₹2.40 crore
-Doubtful total    ₹3.30 crore
-PD                5.0%
-LGD               40.0%
-Assumed recovery  60.0%
-CCF               25%
-EAD               ₹6.35 crore
-EL rate           2.0%
-EL amount         ₹0.127 crore / ₹12.70 lakh
-Collateral recovery ₹3.60 crore
-Other recovery    ₹0.60 crore
-Net recovery      ₹4.20 crore
-Recovery rate     70.0%
-Residual loss     ₹1.80 crore
-Loss rate         30.0%
-```
+| Spine-case item | Figure |
+|---|---:|
+| Sanction | ₹8.00 crore |
+| Opening DP | ₹6.50 crore |
+| Opening draw | ₹5.80 crore |
+| Undrawn | ₹2.20 crore |
+| Utilisation | 72.5% |
+| Stressed DP | ₹5.20 crore |
+| Stressed draw | ₹5.90 crore |
+| Excess | ₹0.70 crore |
+| NPA outstanding | ₹6.00 crore |
+| NPA security | ₹4.50 crore |
+| Substandard prov | ₹0.90 crore / ₹90 lakh |
+| Doubtful security | ₹3.60 crore |
+| Doubtful unsecured | ₹2.40 crore |
+| Doubtful secured prov | ₹0.90 crore |
+| Doubtful unsecured prov | ₹2.40 crore |
+| Doubtful total | ₹3.30 crore |
+| PD | 5.0% |
+| LGD | 40.0% |
+| Assumed recovery | 60.0% |
+| CCF | 25% |
+| EAD | ₹6.35 crore |
+| EL rate | 2.0% |
+| EL amount | ₹0.127 crore / ₹12.70 lakh |
+| Collateral recovery | ₹3.60 crore |
+| Other recovery | ₹0.60 crore |
+| Net recovery | ₹4.20 crore |
+| Recovery rate | 70.0% |
+| Residual loss | ₹1.80 crore |
+| Loss rate | 30.0% |
 
 ```text
 Regulatory threshold
@@ -1698,68 +1919,30 @@ Workout → recovery → write-off / residual loss
 
 **What to retain**
 
-```text
-Primary repayment source first; collateral second
-Borrower risk, facility exposure and recovery severity are separate dimensions
-Customer, obligor, group, facility and exposure are different grains
-Drawing power governs working-capital availability; sanction does not guarantee availability
-SMA is early stress; NPA is prudential classification; default is a governed credit event
-RBI provisioning follows classification, ageing, security and special category rules
-PD measures likelihood; LGD severity; EAD default-point exposure
-Internal rating does not set Standardised Approach risk weight
-Eligible external rating enters RBI mapping before regulatory risk weight
-Single-name concentration is measured against eligible Tier 1 capital
-Default starts recovery; it does not fix final loss
-Write-off, waiver, settlement, cure and recovery are different outcomes
-```
+Primary repayment source first; collateral second. Borrower risk, facility exposure and recovery severity are separate dimensions.
+
+Customer, obligor, group, facility and exposure are different grains. Drawing power governs working-capital availability; sanction does not guarantee availability.
+
+SMA is early stress; NPA is prudential classification; default is a governed credit event. RBI provisioning follows classification, ageing, security and special category rules.
+
+PD measures likelihood; LGD severity; EAD default-point exposure. Internal rating does not set Standardised Approach risk weight.
+
+Eligible external rating enters RBI mapping before regulatory risk weight. Single-name concentration is measured against eligible Tier 1 capital.
+
+Default starts recovery; it does not fix final loss. Write-off, waiver, settlement, cure and recovery are different outcomes.
 
 **Sources**
 
-```text
-01 — Credit Risk — Core End-to-End Masterclass
-Issuing body  Primer project source pack
-Reference     No reference number
-Date          Undated
-
-Reserve Bank of India (Commercial Banks – Income Recognition, Asset Classification and Provisioning) Directions, 2025
-Issuing body  Reserve Bank of India
-Reference     RBI/DOR/2025-26/164; DOR.STR.REC.83/21.04.048/2025-26
-Date          28 November 2025
-
-Reserve Bank of India (Commercial Banks – Resolution of Stressed Assets) Directions, 2025
-Issuing body  Reserve Bank of India
-Reference     RBI/DOR/2025-26/165; DOR.STR.REC.84/21.04.048/2025-26
-Date          28 November 2025
-
-Reserve Bank of India (Commercial Banks – Prudential Norms on Capital Adequacy) Directions, 2025
-Issuing body  Reserve Bank of India
-Reference     RBI/DOR/2025-26/151; DOR.CAP.REC.70/21-01-002/2025-26
-Date          28 November 2025
-
-Reserve Bank of India (Commercial Banks – Concentration Risk Management) Directions, 2025
-Issuing body  Reserve Bank of India
-Reference     RBI/DOR/2025-26/158; DOR.CRE.REC.77/07-03-001/2025-26
-Date          28 November 2025
-
-Reserve Bank of India (Commercial Banks – Credit Information Reporting) Directions, 2025
-Issuing body  Reserve Bank of India
-Reference     RBI/DOR/2025-26/156; DOR.FIN.REC.No.75/20.16.056/2025-26
-Date          28 November 2025
-
-Reserve Bank of India (Credit Information Companies) Directions, 2025
-Issuing body  Reserve Bank of India
-Reference     RBI/DOR/2025-26/378; DOR.FIN.REC.No.297/20.16.056/2025-26
-Date          28 November 2025
-
-Indian Accounting Standard 109 — Financial Instruments
-Issuing body  Ministry of Corporate Affairs
-Reference     Ind AS 109
-Date          16 February 2015, as amended
-
-Transfer of Property Act, 1882
-Issuing body  Government of India
-Reference     Act 4 of 1882
-Date          17 February 1882
-```
+| Document | Issuing body | Reference | Date |
+|---|---|---|---|
+| 01 — Credit Risk — Core End-to-End Masterclass | Primer project source pack | No reference number | Undated |
+| Reserve Bank of India (Commercial Banks – Income Recognition, Asset Classification and Provisioning) Directions, 2025 | Reserve Bank of India | RBI/DOR/2025-26/164; DOR.STR.REC.83/21.04.048/2025-26 | 28 November 2025 |
+| Reserve Bank of India (Commercial Banks – Resolution of Stressed Assets) Directions, 2025 | Reserve Bank of India | RBI/DOR/2025-26/165; DOR.STR.REC.84/21.04.048/2025-26 | 28 November 2025 |
+| Reserve Bank of India (Commercial Banks – Prudential Norms on Capital Adequacy) Directions, 2025 | Reserve Bank of India | RBI/DOR/2025-26/151; DOR.CAP.REC.70/21-01-002/2025-26 | 28 November 2025 |
+| Reserve Bank of India (Commercial Banks – Concentration Risk Management) Directions, 2025 | Reserve Bank of India | RBI/DOR/2025-26/158; DOR.CRE.REC.77/07-03-001/2025-26 | 28 November 2025 |
+| Reserve Bank of India (Commercial Banks – Credit Information Reporting) Directions, 2025 | Reserve Bank of India | RBI/DOR/2025-26/156; DOR.FIN.REC.No.75/20.16.056/2025-26 | 28 November 2025 |
+| Reserve Bank of India (Credit Information Companies) Directions, 2025 | Reserve Bank of India | RBI/DOR/2025-26/378; DOR.FIN.REC.No.297/20.16.056/2025-26 | 28 November 2025 |
+| Indian Accounting Standard 109 — Financial Instruments | Ministry of Corporate Affairs | Ind AS 109 | 16 February 2015, as amended |
+| Transfer of Property Act, 1882 | Government of India | Act 4 of 1882 | 17 February 1882 |
 
 ## Verification log
