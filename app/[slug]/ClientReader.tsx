@@ -171,7 +171,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
           </header>
 
           {/* Rendered Markdown Body */}
-          <article className="prose w-full min-w-0">
+          <article className="prose w-full min-w-0 max-w-none">
             {children}
           </article>
         </main>

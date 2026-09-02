@@ -38,22 +38,11 @@ export function ScrollContainer({
     };
   }, []);
 
-  let maskImage = 'none';
-  if (canScrollLeft && canScrollRight) {
-    maskImage = 'linear-gradient(to right, transparent 0, black 28px, black calc(100% - 28px), transparent 100%)';
-  } else if (canScrollLeft) {
-    maskImage = 'linear-gradient(to right, transparent 0, black 28px, black 100%)';
-  } else if (canScrollRight) {
-    maskImage = 'linear-gradient(to right, black 0, black calc(100% - 28px), transparent 100%)';
-  }
-
   return (
     <div
       ref={containerRef}
-      className={`w-full max-w-full overflow-x-auto my-6 md:my-8 no-scrollbar touch-pan-x min-w-0 ${className}`}
+      className={`w-full max-w-full overflow-x-auto my-6 md:my-8 touch-pan-x min-w-0 ${className}`}
       style={{
-        maskImage,
-        WebkitMaskImage: maskImage,
         WebkitOverflowScrolling: 'touch',
       }}
     >

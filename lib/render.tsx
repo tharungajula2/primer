@@ -10,16 +10,16 @@ import { ScrollContainer } from '@/components/ScrollContainer';
 
 // Custom component for tables
 const ResponsiveTable = (props: any) => (
-  <ScrollContainer className="-mx-4 px-4 sm:mx-0 sm:px-0">
-    <table {...props} className="w-full text-sm sm:text-base whitespace-nowrap min-w-max" />
-  </ScrollContainer>
+  <div className="table-container my-6 w-full max-w-full">
+    <table {...props} />
+  </div>
 );
 
 // Custom component for pre blocks
 const ResponsivePre = (props: any) => (
-  <ScrollContainer className="-mx-4 px-4 sm:mx-0 sm:px-0">
-    <pre {...props} className="text-xs sm:text-sm leading-relaxed whitespace-pre font-mono" />
-  </ScrollContainer>
+  <div className="my-6 w-full max-w-full">
+    <pre {...props} />
+  </div>
 );
 
 export function extractHeadings(content: string) {
@@ -53,8 +53,6 @@ export async function renderMarkdown(content: string) {
       components: {
         table: ResponsiveTable,
         pre: ResponsivePre,
-        td: (props: any) => <td {...props} className="tabular-nums border-b border-border p-3" />,
-        th: (props: any) => <th {...props} className="font-semibold text-left border-b border-border p-3" />,
       },
     });
 

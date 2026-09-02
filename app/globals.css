@@ -186,10 +186,16 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .prose pre {
   font-family: var(--font-mono);
   font-size: 0.8125rem; /* 13px mobile */
+  line-height: 1.6;
   background-color: var(--background);
   border: 1px solid var(--border);
   padding: 0.875rem;
   border-radius: 0.5rem;
+  max-width: 100%;
+  width: 100%;
+  white-space: pre-wrap; /* Wrap flow diagrams on web layout */
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 @media (min-width: 768px) {
@@ -205,34 +211,86 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   font-size: 1em;
 }
 
-/* Custom Table Styles */
-.prose table {
+/* Table Container & Layout Fixes - GitHub / VS Code preview style */
+.table-container {
   width: 100%;
+  max-width: 100%;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+@media (min-width: 1024px) {
+  .table-container {
+    overflow-x: visible !important;
+  }
+}
+
+.prose table {
+  width: 100% !important;
+  max-width: 100% !important;
   border-collapse: collapse;
   font-family: var(--font-sans);
   font-size: 0.875rem; /* 14px mobile */
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  table-layout: auto;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .prose table {
-    font-size: 0.9375rem; /* 15px desktop */
+    font-size: 0.875rem; /* 14px web layout */
+    table-layout: fixed !important; /* Force exact 100% width fitting on web layout */
+  }
+
+  .prose th:first-child,
+  .prose td:first-child {
+    width: 24% !important; /* Proper allocation for Dimension / Key terms column */
   }
 }
 
 .prose th,
 .prose td {
   border-bottom: 1px solid var(--border);
-  padding: 0.625rem;
+  border-right: 1px solid var(--border);
+  padding: 0.625rem 0.875rem;
   text-align: left;
+  vertical-align: top;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+.prose th:last-child,
+.prose td:last-child {
+  border-right: none;
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
 }
 
 @media (min-width: 768px) {
   .prose th,
   .prose td {
-    padding: 0.75rem;
+    padding: 0.75rem 0.875rem;
   }
 }
 
 .prose th {
   font-weight: 600;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dark .prose th {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.prose tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.015);
+}
+
+.dark .prose tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
 }
