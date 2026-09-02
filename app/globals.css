@@ -81,8 +81,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 @media (min-width: 768px) {
   .prose {
-    font-size: 1.125rem; /* 18px desktop */
-    line-height: 1.65; /* 1.65 leading for desktop 18px serif */
+    font-size: 1.0625rem; /* 17px desktop - optimal reading balance */
+    line-height: 1.7;
   }
 }
 
