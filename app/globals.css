@@ -264,6 +264,18 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   background-color: rgba(0, 0, 0, 0.03);
 }
 
+/* Mobile Table Pinning (< 1024px) */
+@media (max-width: 1023px) {
+  .table-container th:first-child,
+  .table-container td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background-color: var(--background);
+    box-shadow: 1px 0 0 0 var(--border);
+  }
+}
+
 /* Table Styles: Web Layout Only (>= 1024px) */
 @media (min-width: 1024px) {
   .table-container {

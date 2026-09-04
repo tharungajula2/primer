@@ -4,8 +4,18 @@ import matter from 'gray-matter';
 
 const contentDirectory = path.join(process.cwd(), 'content');
 
-export type ContentFormat = 'markdown' | 'html';
+export type ContentFormat = 'md' | 'html';
 export type ContentSeries = 'masterclass' | 'atom';
+
+export interface Flashcard {
+  id: string;
+  slug: string;
+  section: string;
+  sectionId: string;
+  sectionIndex: number;
+  question: string;
+  answer: string;
+}
 
 export interface DocumentMeta {
   slug: string;
@@ -26,6 +36,7 @@ export interface DocumentMeta {
 
 export interface DocumentData extends DocumentMeta {
   content: string;
+  flashcards: Flashcard[];
 }
 
 // Rough estimate of words per minute for reading
@@ -62,6 +73,79 @@ function parseRelated(rawRelated: any): string[] {
   return [];
 }
 
+export function extractFlashcards(content: string, slug: string): Flashcard[] {
+  const lines = content.split('\n');
+  const flashcards: Flashcard[] = [];
+  
+  let currentSection = 'Overview';
+  let currentSectionId = 'overview';
+  let sectionIndex = 0;
+  let cardIndex = 0;
+  
+  let inFlashcardBlock = false;
+  let blockLines: string[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    if (line.startsWith('## ')) {
+      currentSection = line.replace(/^##\s+/, '').trim();
+      currentSectionId = currentSection
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      sectionIndex++;
+    }
+
+    if (line.trim().startsWith('```flashcard')) {
+      inFlashcardBlock = true;
+      blockLines = [];
+      continue;
+    }
+
+    if (inFlashcardBlock && line.trim() === '```') {
+      inFlashcardBlock = false;
+      cardIndex++;
+
+      let question = '';
+      let answer = '';
+
+      for (const bLine of blockLines) {
+        const trimmed = bLine.trim();
+        if (trimmed.startsWith('Q:') || trimmed.startsWith('Question:')) {
+          question = trimmed.replace(/^(Q:|Question:)\s*/i, '').trim();
+        } else if (trimmed.startsWith('A:') || trimmed.startsWith('Answer:')) {
+          answer = trimmed.replace(/^(A:|Answer:)\s*/i, '').trim();
+        } else if (question && !answer) {
+          question += ' ' + trimmed;
+        } else if (answer) {
+          answer += ' ' + trimmed;
+        }
+      }
+
+      if (question || answer) {
+        flashcards.push({
+          id: `${slug}-fc-${cardIndex}`,
+          slug,
+          section: currentSection,
+          sectionId: currentSectionId,
+          sectionIndex,
+          question: question.trim(),
+          answer: answer.trim(),
+        });
+      }
+      continue;
+    }
+
+    if (inFlashcardBlock) {
+      blockLines.push(line);
+    }
+  }
+
+  return flashcards;
+}
+
 export function getSortedDocumentsData(): DocumentMeta[] {
   // Check if directory exists
   if (!fs.existsSync(contentDirectory)) {
@@ -84,9 +168,9 @@ export function getSortedDocumentsData(): DocumentMeta[] {
       
       const { readTime, wordCount } = calculateReadTime(matterResult.content);
 
-      const format: ContentFormat = matterResult.data.format 
-        ? matterResult.data.format 
-        : (isHtml ? 'html' : 'markdown');
+      const format: ContentFormat = matterResult.data.format === 'markdown' 
+        ? 'md' 
+        : (matterResult.data.format ? matterResult.data.format : (isHtml ? 'html' : 'md'));
       
       const series: ContentSeries = matterResult.data.series 
         ? matterResult.data.series 
@@ -142,13 +226,15 @@ export function getDocumentData(slug: string): DocumentData | null {
   
   const { readTime, wordCount } = calculateReadTime(matterResult.content);
 
-  const format: ContentFormat = matterResult.data.format 
-    ? matterResult.data.format 
-    : (isHtml ? 'html' : 'markdown');
+  const format: ContentFormat = matterResult.data.format === 'markdown' 
+    ? 'md' 
+    : (matterResult.data.format ? matterResult.data.format : (isHtml ? 'html' : 'md'));
   
   const series: ContentSeries = matterResult.data.series 
     ? matterResult.data.series 
     : (format === 'html' ? 'atom' : 'masterclass');
+
+  const flashcards = extractFlashcards(matterResult.content, slug);
 
   return {
     slug,
@@ -166,5 +252,25 @@ export function getDocumentData(slug: string): DocumentData | null {
     readTime,
     wordCount,
     content: matterResult.content,
+    flashcards,
   };
+}
+
+export function getAllFlashcards(): Flashcard[] {
+  if (!fs.existsSync(contentDirectory)) return [];
+
+  const fileNames = fs.readdirSync(contentDirectory);
+  const allCards: Flashcard[] = [];
+
+  fileNames.forEach((fileName) => {
+    if (!fileName.endsWith('.md') && !fileName.endsWith('.html')) return;
+    const slug = fileName.replace(/\.(md|html)$/, '');
+    const fullPath = path.join(contentDirectory, fileName);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const matterResult = matter(fileContents);
+    const cards = extractFlashcards(matterResult.content, slug);
+    allCards.push(...cards);
+  });
+
+  return allCards;
 }

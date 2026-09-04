@@ -10,7 +10,10 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeReact from 'rehype-react';
 import * as jsxRuntime from 'react/jsx-runtime';
 import React from 'react';
+import { visit } from 'unist-util-visit';
 import { MermaidDiagram } from '@/components/MermaidDiagram';
+import { Callout, CalloutType } from '@/components/Callout';
+import { ScrollTable } from '@/components/ScrollTable';
 
 function getCodeString(children: React.ReactNode): string {
   if (typeof children === 'string') return children;
@@ -22,11 +25,56 @@ function getCodeString(children: React.ReactNode): string {
   return '';
 }
 
+function remarkDirectiveTransform() {
+  return (tree: any) => {
+    visit(tree, (node: any) => {
+      if (
+        node.type === 'containerDirective' ||
+        node.type === 'leafDirective' ||
+        node.type === 'textDirective'
+      ) {
+        const name = node.name;
+        if (
+          name === 'permanent-rule' ||
+          name === 'never-confuse' ||
+          name === 'trap' ||
+          name === 'mental-model' ||
+          name === 'key-insight'
+        ) {
+          const data = node.data || (node.data = {});
+          data.hName = 'callout';
+          data.hProperties = {
+            type: name,
+            ...node.attributes,
+          };
+        } else if (name === 'left' || name === 'right') {
+          const data = node.data || (node.data = {});
+          data.hName = 'div';
+          data.hProperties = {
+            className: `never-confuse-half never-confuse-${name} p-3 rounded-md bg-background/50 border border-border/40`,
+          };
+          const title = (node.children?.[0]?.value || node.attributes?.title || (name === 'left' ? 'First Concept' : 'Second Concept')).trim();
+          // Add header badge if label exists
+          if (node.children && node.children.length > 0 && node.children[0].type === 'text') {
+            node.children = [
+              {
+                type: 'html',
+                value: `<div class="font-semibold font-sans text-xs uppercase tracking-wide text-foreground/85 mb-1.5">${node.children[0].value}</div>`
+              },
+              ...node.children.slice(1)
+            ];
+          }
+        }
+      }
+    });
+  };
+}
+
 // Custom component for tables
 const ResponsiveTable = (props: any) => (
-  <div className="table-container my-6 w-full max-w-full">
+  <ScrollTable>
     <table {...props} />
-  </div>
+  </ScrollTable>
 );
 
 // Custom component for pre blocks
@@ -35,6 +83,18 @@ const ResponsivePre = (props: any) => {
   const codeChild = children.find(
     (child: any) => React.isValidElement(child)
   );
+
+  const isFlashcard =
+    props['data-language'] === 'flashcard' ||
+    (codeChild && React.isValidElement(codeChild) && (
+      (codeChild.props as any)['data-language'] === 'flashcard' ||
+      (typeof (codeChild.props as any)?.className === 'string' && (codeChild.props as any).className.includes('language-flashcard'))
+    ));
+
+  if (isFlashcard) {
+    // Strip flashcard blocks completely from the render tree!
+    return null;
+  }
 
   const isMermaid = 
     props['data-language'] === 'mermaid' ||
@@ -79,7 +139,8 @@ export async function renderMarkdown(content: string) {
     .use(remarkGfm)
     .use(remarkMath)
     .use(remarkDirective)
-    .use(remarkRehype)
+    .use(remarkDirectiveTransform)
+    .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeSlug)
     .use(rehypeKatex)
     .use(rehypePrettyCode, {
@@ -93,6 +154,7 @@ export async function renderMarkdown(content: string) {
       components: {
         table: ResponsiveTable,
         pre: ResponsivePre,
+        callout: (props: any) => <Callout type={props.type as CalloutType}>{props.children}</Callout>,
       },
     });
 

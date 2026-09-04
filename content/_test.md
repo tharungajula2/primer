@@ -1,14 +1,45 @@
 ---
 title: Technical Reading Test Document
-description: Internal rendering verification for display equations, inline math, Mermaid diagrams, Shiki code syntax highlighting, and wide tables.
+description: Internal rendering verification for equations, diagrams, Shiki highlighting, callouts, wide tables, and hidden flashcard extraction.
 order: 999
 collection: test
 verified: unverified
+format: md
+series: masterclass
+tags: [credit-risk, test, engine]
+created: 2026-09-04
+updated: 2026-09-04
 ---
 
 ## Technical Reading Engine Verification
 
-This test document verifies the Phase 2 rendering capabilities of the Primer engine.
+This test document verifies the rendering capabilities of the Primer engine across math, diagrams, code, callout blocks, table survival, and hidden flashcard extraction.
+
+### Callout Components (Phase 4)
+
+:::permanent-rule
+Exposure at Default (EAD) must include drawn balances plus committed undrawn limits multiplied by credit conversion factors (CCF).
+:::
+
+:::never-confuse
+::left[Expected Loss (EL)]
+Statistical mean of expected loss ($PD \times LGD \times EAD$). Covered by bank balance sheet provisions.
+
+::right[Unexpected Loss (UL)]
+Tail volatility of loss distribution at a chosen confidence interval (99.9%). Covered by Tier 1 capital.
+:::
+
+:::trap
+Do not confuse Ind AS 109 Stage 2 asset classification (significant increase in credit risk) with RBI 90 DPD NPA defaults.
+:::
+
+:::mental-model
+Think of provisions as the cost of doing business, and capital as the solvency shield against extreme economic shocks.
+:::
+
+:::key-insight
+Collateral valuations and default probabilities move inversely during downturns — haircut assumptions must be stress-tested dynamically.
+:::
 
 ### Math Notation
 
@@ -51,7 +82,7 @@ def calculate_expected_credit_loss(ead: float, pd: float, lgd: float, discount_r
     return total_ecl
 ```
 
-### Wide Reference Table
+### Wide Reference Table (Phase 5)
 
 | Rating | PD (%) | LGD (%) | EAD ($M) | RW (%) | Stage 1 ($) | Stage 2 ($) | Stage 3 ($) | Provision ($) | Capital ($) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -62,3 +93,15 @@ def calculate_expected_credit_loss(ead: float, pd: float, lgd: float, discount_r
 | BB | 2.50% | 50.0% | 40.0 | 100% | 0 | 500,000 | 0 | 500,000 | 2,000,000 |
 | B | 6.00% | 55.0% | 25.0 | 150% | 0 | 825,000 | 0 | 825,000 | 2,250,000 |
 | CCC | 15.00% | 65.0% | 10.0 | 250% | 0 | 0 | 975,000 | 975,000 | 1,625,000 |
+
+### Flashcards (Phase 6)
+
+```flashcard
+Q: What is the 90 DPD classification rule under RBI guidelines?
+A: An asset is classified as a Non-Performing Asset (NPA) if interest or principal installment remains overdue for a period of more than 90 days.
+```
+
+```flashcard
+Q: What is the key difference between Expected Loss (EL) and Unexpected Loss (UL)?
+A: Expected Loss is covered by credit risk provisions from bank earnings, whereas Unexpected Loss represents extreme tail risk and is covered by Tier 1 capital.
+```
