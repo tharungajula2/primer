@@ -170,16 +170,40 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
         <main className="w-full max-w-5xl min-w-0 flex-1">
           {/* Document Header */}
           <header className="mb-12 max-w-2xl">
-            <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight mb-4 leading-tight">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded bg-black/5 text-muted shrink-0">
+                {doc.series}
+              </span>
+              {doc.tags.length > 0 && (
+                <span className="text-xs text-muted/60 truncate">
+                  {doc.tags.map(t => `#${t}`).join(' ')}
+                </span>
+              )}
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight mb-4 leading-tight text-foreground">
               {doc.title}
             </h1>
+            
             <p className="text-xl text-muted leading-relaxed mb-6">
               {doc.description}
             </p>
-            <div className="flex items-center gap-4 text-sm font-medium text-muted/80">
+
+            {/* Phase 8 Quiet Single-Line Metadata Strip */}
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted/70 pt-3 border-t border-border/40">
               <span>{doc.readTime}</span>
               <span>&middot;</span>
               <span>{doc.wordCount.toLocaleString()} words</span>
+              {doc.updated && (
+                <>
+                  <span>&middot;</span>
+                  <span>Updated {doc.updated}</span>
+                </>
+              )}
+              <span>&middot;</span>
+              <span>
+                {doc.verified === 'verified' ? 'Verified note' : 'Unverified draft'}
+              </span>
             </div>
           </header>
 

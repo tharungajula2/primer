@@ -34,6 +34,18 @@ export default async function DocumentPage({ params }: { params: Promise<{ slug:
   }
 
   const headings = extractHeadings(doc.content);
+
+  if (doc.format === 'html') {
+    return (
+      <ClientReader doc={doc} headings={headings}>
+        <div
+          className="atom-content prose w-full min-w-0 max-w-none"
+          dangerouslySetInnerHTML={{ __html: doc.content }}
+        />
+      </ClientReader>
+    );
+  }
+
   const reactContent = await renderMarkdown(doc.content);
 
   return (

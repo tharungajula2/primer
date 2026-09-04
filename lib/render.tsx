@@ -117,12 +117,28 @@ const ResponsivePre = (props: any) => {
 
 export function extractHeadings(content: string) {
   const headings: { id: string; text: string }[] = [];
-  const lines = content.split('\n');
   
-  for (const line of lines) {
-    if (line.startsWith('## ')) {
-      const text = line.replace(/^##\s+/, '').trim();
-      const id = text
+  // Match markdown headers: ## Title
+  const mdRegex = /^##\s+(.+)$/gm;
+  let match;
+  while ((match = mdRegex.exec(content)) !== null) {
+    const text = match[1].trim();
+    const id = text
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    headings.push({ id, text });
+  }
+
+  // Match HTML headers: <h2 ...>Text</h2>
+  if (headings.length === 0) {
+    const htmlRegex = /<h2(?:\s+id=["']([^"']+)["'])?[^>]*>(.*?)<\/h2>/gi;
+    let htmlMatch;
+    while ((htmlMatch = htmlRegex.exec(content)) !== null) {
+      const rawId = htmlMatch[1];
+      const text = htmlMatch[2].replace(/<[^>]*>/g, '').trim();
+      const id = rawId || text
         .toLowerCase()
         .replace(/[^\w\s-]/g, '')
         .replace(/[\s_-]+/g, '-')
@@ -130,6 +146,7 @@ export function extractHeadings(content: string) {
       headings.push({ id, text });
     }
   }
+
   return headings;
 }
 

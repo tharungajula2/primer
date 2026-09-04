@@ -1,0 +1,37 @@
+---
+title: Memory Hierarchy Architecture
+description: Standalone HTML atom document proving full shell, TOC sidebar, inline SVG diagram, and custom styling integration.
+order: 998
+collection: hardware
+verified: unverified
+format: html
+series: atom
+tags: [architecture, hardware, atom]
+created: 2026-09-04
+updated: 2026-09-04
+---
+
+<p>Atom notes are standalone authored documents for visual technical subjects where the picture is the primary teaching mechanism.</p>
+
+<h2 id="cache-levels-overview">Cache Levels Overview</h2>
+<p>Modern CPU memory hierarchies balance latency, bandwidth, and capacity across L1, L2, L3 caches and main DRAM memory.</p>
+
+<!-- Inline SVG Diagram proving SVG preservation -->
+<div style="margin: 2rem 0; padding: 1.5rem; background: var(--atom-bg); border: 1px solid var(--atom-border); border-radius: 0.5rem;">
+  <svg viewBox="0 0 600 200" style="width: 100%; height: auto;">
+    <rect x="200" y="10" width="200" height="30" fill="#2563EB" rx="4" />
+    <text x="300" y="30" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="12" font-weight="bold">L1 Cache (1ns / 64KB)</text>
+    
+    <rect x="150" y="55" width="300" height="35" fill="#3B82F6" rx="4" />
+    <text x="300" y="77" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="12" font-weight="bold">L2 Cache (4ns / 1MB)</text>
+    
+    <rect x="100" y="105" width="400" height="40" fill="#60A5FA" rx="4" />
+    <text x="300" y="130" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="12" font-weight="bold">L3 Cache (12ns / 32MB Shared)</text>
+    
+    <rect x="50" y="155" width="500" height="40" fill="#E5E5E5" rx="4" />
+    <text x="300" y="180" text-anchor="middle" fill="#111111" font-family="sans-serif" font-size="12" font-weight="bold">Main System DRAM (60ns / 64GB)</text>
+  </svg>
+</div>
+
+<h2 id="latency-and-bandwidth-tradeoffs">Latency and Bandwidth Tradeoffs</h2>
+<p>Each tier in the hierarchy trades capacity for speed. Accessing main memory takes ~60x longer than reading from L1 data cache.</p>
