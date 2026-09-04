@@ -6,7 +6,7 @@ import remarkDirective from 'remark-directive';
 import remarkRehype from 'remark-rehype';
 import rehypeSlug from 'rehype-slug';
 import rehypeKatex from 'rehype-katex';
-import rehypeHighlight from 'rehype-highlight';
+import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeReact from 'rehype-react';
 import * as jsxRuntime from 'react/jsx-runtime';
 import React from 'react';
@@ -33,13 +33,17 @@ const ResponsiveTable = (props: any) => (
 const ResponsivePre = (props: any) => {
   const children = React.Children.toArray(props.children);
   const codeChild = children.find(
-    (child: any) =>
-      React.isValidElement(child) &&
-      typeof (child.props as any)?.className === 'string' &&
-      (child.props as any).className.includes('language-mermaid')
+    (child: any) => React.isValidElement(child)
   );
 
-  if (codeChild && React.isValidElement(codeChild)) {
+  const isMermaid = 
+    props['data-language'] === 'mermaid' ||
+    (codeChild && React.isValidElement(codeChild) && (
+      (codeChild.props as any)['data-language'] === 'mermaid' ||
+      (typeof (codeChild.props as any)?.className === 'string' && (codeChild.props as any).className.includes('language-mermaid'))
+    ));
+
+  if (isMermaid && codeChild && React.isValidElement(codeChild)) {
     const rawChart = getCodeString((codeChild.props as any).children).trim();
     return <MermaidDiagram chart={rawChart} />;
   }
@@ -78,7 +82,10 @@ export async function renderMarkdown(content: string) {
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeKatex)
-    .use(rehypeHighlight, { ignoreMissing: true })
+    .use(rehypePrettyCode, {
+      theme: 'github-light',
+      keepBackground: false,
+    })
     .use(rehypeReact, {
       Fragment: React.Fragment,
       jsx: (jsxRuntime as any).jsx,
