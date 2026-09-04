@@ -25,6 +25,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+function processHtmlAtomContent(rawContent: string): string {
+  // 1. Strip <script id="primer-flashcards">...</script> so it does not render
+  let clean = rawContent.replace(/<script\s+id=["']primer-flashcards["'][^>]*>[\s\S]*?<\/script>/gi, '');
+
+  // 2. Strip outer doctype/html/head/body tags if present
+  clean = clean.replace(/<!DOCTYPE[^>]*>/gi, '');
+  clean = clean.replace(/<\/?(html|head|body)[^>]*>/gi, '');
+
+  // 3. Scope CSS rules (body, html, :root) to .atom-content to prevent style leakage
+  clean = clean.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (_, css) => {
+    const scopedCss = css
+      .replace(/body\s*\{/g, '.atom-content {')
+      .replace(/html\s*\{/g, '.atom-content {')
+      .replace(/:root\s*\{/g, '.atom-content {');
+    return `<style>${scopedCss}</style>`;
+  });
+
+  return clean;
+}
+
 export default async function DocumentPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const doc = getDocumentData(resolvedParams.slug);
@@ -36,11 +56,12 @@ export default async function DocumentPage({ params }: { params: Promise<{ slug:
   const headings = extractHeadings(doc.content);
 
   if (doc.format === 'html') {
+    const cleanContent = processHtmlAtomContent(doc.content);
     return (
       <ClientReader doc={doc} headings={headings}>
         <div
           className="atom-content prose w-full min-w-0 max-w-none"
-          dangerouslySetInnerHTML={{ __html: doc.content }}
+          dangerouslySetInnerHTML={{ __html: cleanContent }}
         />
       </ClientReader>
     );

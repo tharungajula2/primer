@@ -30,7 +30,14 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
     const renderDiagram = async () => {
       try {
         const id = `mermaid-${uniqueId}-${Math.random().toString(36).substring(2, 9)}`;
-        const { svg } = await mermaid.render(id, chart);
+        const cleanChart = chart
+          .replace(/&quot;/g, '"')
+          .replace(/&apos;/g, "'")
+          .replace(/&#39;/g, "'")
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&');
+        const { svg } = await mermaid.render(id, cleanChart);
         if (isMounted) {
           setSvgContent(svg);
           setError(null);

@@ -2,6 +2,20 @@
 @import "katex/dist/katex.min.css";
 @import "../public/primer-atom.css";
 
+/* KaTeX Display Equations Container - Prevent overflow & clipping on mobile */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.5rem 0;
+  margin: 1.5rem 0 !important;
+}
+
+.katex-display > .katex {
+  max-width: 100%;
+}
+
 :root {
   --background: #FCFCFC;
   --foreground: #111111;

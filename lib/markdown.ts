@@ -81,7 +81,54 @@ function formatDateString(val: any): string {
   return String(val).trim();
 }
 
+export function extractHtmlFlashcards(content: string, slug: string): Flashcard[] {
+  const flashcards: Flashcard[] = [];
+  const scriptRegex = /<script\s+id=["']primer-flashcards["']\s+type=["']application\/json["'][^>]*>([\s\S]*?)<\/script>/i;
+  const match = scriptRegex.exec(content);
+
+  if (!match) return flashcards;
+
+  try {
+    const rawJson = match[1].trim();
+    const parsed = JSON.parse(rawJson);
+
+    if (Array.isArray(parsed)) {
+      parsed.forEach((item: any, idx: number) => {
+        const question = item.question || item.q || '';
+        const answer = item.answer || item.a || '';
+        const section = item.section || 'Overview';
+        const sectionId = section
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/[\s_-]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+
+        if (question || answer) {
+          flashcards.push({
+            id: `${slug}-fc-${idx + 1}`,
+            slug,
+            section,
+            sectionId,
+            sectionIndex: idx + 1,
+            question: String(question).trim(),
+            answer: String(answer).trim(),
+          });
+        }
+      });
+    }
+  } catch (err) {
+    console.error(`Failed to parse primer-flashcards script in ${slug}:`, err);
+  }
+
+  return flashcards;
+}
+
 export function extractFlashcards(content: string, slug: string): Flashcard[] {
+  const htmlCards = extractHtmlFlashcards(content, slug);
+  if (htmlCards.length > 0) {
+    return htmlCards;
+  }
+
   const lines = content.split('\n');
   const flashcards: Flashcard[] = [];
   
