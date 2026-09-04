@@ -1,21 +1,11 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
   --background: #FCFCFC;
   --foreground: #111111;
   --prose-body: #222222;
   --muted: #666666;
   --border: #E5E5E5;
-}
-
-.dark {
-  --background: #121212;
-  --foreground: #FFFFFF;     /* Headings, titles, strong emphasis: 100% white */
-  --prose-body: #D4D4D8;     /* Body serif text: 85% white (eliminates halation/bloom) */
-  --muted: #888888;          /* TOC & secondary text: distinct 55% white */
-  --border: #27272A;
 }
 
 @theme inline {
@@ -65,16 +55,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   color: var(--prose-body);
 }
 
-.dark .prose {
-  color: var(--prose-body);
-}
-
 .prose p {
   font-weight: 400;
-  color: var(--prose-body);
-}
-
-.dark .prose p {
   color: var(--prose-body);
 }
 
@@ -130,10 +112,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   line-height: 1.25;
 }
 
-.dark .prose h2 {
-  color: var(--foreground);
-}
-
 .prose h2:first-of-type {
   border-top: none;
   padding-top: 0;
@@ -163,10 +141,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   line-height: 1.3;
 }
 
-.dark .prose h3 {
-  color: var(--foreground);
-}
-
 @media (min-width: 768px) {
   .prose h3 {
     font-size: 1.25rem; /* 20px desktop */
@@ -193,10 +167,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   color: var(--prose-body);
 }
 
-.dark .prose li {
-  color: var(--prose-body);
-}
-
 .prose blockquote {
   border-left: 3px solid var(--border);
   padding-left: 0.875rem;
@@ -206,10 +176,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 .prose strong {
   font-weight: 600;
-  color: var(--foreground);
-}
-
-.dark .prose strong {
   color: var(--foreground);
 }
 
@@ -295,10 +261,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .prose th {
   font-weight: 600;
   background-color: rgba(0, 0, 0, 0.03);
-}
-
-.dark .prose th {
-  background-color: rgba(255, 255, 255, 0.04);
 }
 
 /* Table Styles: Web Layout Only (>= 1024px) */

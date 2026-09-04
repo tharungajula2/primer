@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, List, X } from 'lucide-react';
 import { DocumentData } from '@/lib/markdown';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import clsx from 'clsx';
 
 interface ClientReaderProps {
@@ -79,7 +78,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
         className={clsx(
           "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
           scrolledPastHeader 
-            ? "py-2 bg-background/80 dark:bg-[#121212]/85 backdrop-blur-md backdrop-saturate-150 border-b border-border shadow-xs" 
+            ? "py-2 bg-background/80 backdrop-blur-md backdrop-saturate-150 border-b border-border shadow-xs" 
             : "py-4 sm:py-5 bg-transparent border-b border-transparent backdrop-blur-none"
         )}
       >
@@ -87,7 +86,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
           <div className="flex items-center gap-3 overflow-hidden min-w-0">
             <Link 
               href="/" 
-              className="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/10 dark:active:bg-white/10 transition-colors shrink-0"
+              className="p-2 -ml-2 rounded-full hover:bg-black/5 active:bg-black/10 transition-colors shrink-0"
               aria-label="Back to shelf"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -107,13 +106,12 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             {showTocButton && (
               <button
                 onClick={() => setIsTocOpen(true)}
-                className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/10 dark:active:bg-white/10 transition-colors lg:hidden"
+                className="p-2 rounded-full hover:bg-black/5 active:bg-black/10 transition-colors lg:hidden"
                 aria-label="Table of contents"
               >
                 <List className="w-5 h-5" />
               </button>
             )}
-            <ThemeToggle />
           </div>
         </div>
         
@@ -206,7 +204,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
               <h2 className="font-semibold text-base">Table of Contents</h2>
               <button 
                 onClick={() => setIsTocOpen(false)}
-                className="p-2 -mr-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/10 dark:active:bg-white/10 transition-colors"
+                className="p-2 -mr-2 rounded-full hover:bg-black/5 active:bg-black/10 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>

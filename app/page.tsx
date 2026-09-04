@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { getSortedDocumentsData } from '@/lib/markdown';
-import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function Home() {
   const documents = getSortedDocumentsData();
@@ -11,7 +10,6 @@ export default function Home() {
       <header className="w-full py-4 border-b border-border/50">
         <div className="max-w-2xl mx-auto px-3 md:px-4 flex items-center justify-between">
           <span className="text-sm font-medium tracking-tight text-foreground">Primer</span>
-          <ThemeToggle />
         </div>
       </header>
 
@@ -30,7 +28,7 @@ export default function Home() {
             <Link
               key={doc.slug}
               href={`/${doc.slug}`}
-              className="group block py-2 -mx-4 px-4 rounded-xl transition-colors hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/10 dark:active:bg-white/10"
+              className="group block py-2 -mx-4 px-4 rounded-xl transition-colors hover:bg-black/5 active:bg-black/10"
             >
               <div className="flex justify-between items-baseline mb-1 gap-4">
                 <h2 className="text-lg font-medium tracking-tight text-foreground group-hover:text-foreground">
