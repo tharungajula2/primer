@@ -73,6 +73,14 @@ function parseRelated(rawRelated: any): string[] {
   return [];
 }
 
+function formatDateString(val: any): string {
+  if (!val) return '';
+  if (val instanceof Date) {
+    return val.toISOString().split('T')[0];
+  }
+  return String(val).trim();
+}
+
 export function extractFlashcards(content: string, slug: string): Flashcard[] {
   const lines = content.split('\n');
   const flashcards: Flashcard[] = [];
@@ -186,8 +194,8 @@ export function getSortedDocumentsData(): DocumentMeta[] {
         format,
         series,
         tags: parseTags(matterResult.data.tags),
-        created: matterResult.data.created || '',
-        updated: matterResult.data.updated || matterResult.data.date || '',
+        created: formatDateString(matterResult.data.created),
+        updated: formatDateString(matterResult.data.updated || matterResult.data.date),
         related: parseRelated(matterResult.data.related),
         readTime,
         wordCount
@@ -246,8 +254,8 @@ export function getDocumentData(slug: string): DocumentData | null {
     format,
     series,
     tags: parseTags(matterResult.data.tags),
-    created: matterResult.data.created || '',
-    updated: matterResult.data.updated || matterResult.data.date || '',
+    created: formatDateString(matterResult.data.created),
+    updated: formatDateString(matterResult.data.updated || matterResult.data.date),
     related: parseRelated(matterResult.data.related),
     readTime,
     wordCount,
