@@ -177,11 +177,22 @@ verified: unverified
 </tbody>
 </table>
 
-<div class="calc">File size = parameters x bytes per parameter
-
-FP16    2 bytes      70B model = 140 GB
-FP8     1 byte       70B model =  70 GB
-INT4    0.5 bytes    70B model =  35 GB</div>
+<div class="calc workings">
+  <div class="calc-title">Formula &amp; worked sizing</div>
+  <div class="calc-formula-box">
+    <code class="num">File size = parameters × bytes per parameter</code>
+  </div>
+  <table class="calc-table">
+    <thead>
+      <tr><th>Precision</th><th>Bytes / Param</th><th>70B Model File Size</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>FP16</td><td class="num">2 bytes</td><td class="num font-semibold">140 GB</td></tr>
+      <tr><td>FP8</td><td class="num">1 byte</td><td class="num font-semibold">70 GB</td></tr>
+      <tr><td>INT4</td><td class="num">0.5 bytes</td><td class="num font-semibold">35 GB</td></tr>
+    </tbody>
+  </table>
+</div>
 
 <p>That arithmetic is the hinge of the entire hardware layer. A 70-billion-parameter model at full precision does not fit on any single GPU shipping today. At four-bit precision it fits on one. The model has not changed. The economics have changed by an order of magnitude.</p>
 
@@ -304,15 +315,26 @@ INT4    0.5 bytes    70B model =  35 GB</div>
 <figcaption>Weights only. A production deployment must also fit the KV cache, which grows with context length and concurrency and frequently exceeds the weights themselves.</figcaption>
 </figure>
 
-<div class="calc">KV cache per request, approximate
-
-  2 x layers x kv_heads x head_dim x bytes x sequence_length
-
-Worked, a 70B-class model at FP8, 32k context
-  2 x 80 layers x 8 kv_heads x 128 dim x 1 byte x 32,000
-  = 5.2 GB per concurrent request
-
-At 40 concurrent requests: 208 GB of cache, against 70 GB of weights</div>
+<div class="calc workings">
+  <div class="calc-title">KV Cache per request (approximate)</div>
+  <div class="calc-formula-box">
+    <code class="num">2 × layers × kv_heads × head_dim × bytes × sequence_length</code>
+  </div>
+  <div class="calc-subhead">Worked example: 70B-class model at FP8, 32k context</div>
+  <div class="calc-pipeline mb-3">
+    <div class="py-1 text-xs text-muted flex justify-between items-baseline border-b border-border/40">
+      <span>Formula expansion</span>
+      <span class="num text-ink">2 × 80 layers × 8 kv_heads × 128 dim × 1 byte × 32,000</span>
+    </div>
+    <div class="py-1.5 text-sm flex justify-between items-baseline font-medium">
+      <span>Per concurrent request</span>
+      <strong class="num text-accent">= 5.2 GB</strong>
+    </div>
+  </div>
+  <div class="calc-summary">
+    At <span class="num font-semibold">40</span> concurrent requests: <strong class="num font-semibold">208 GB</strong> of cache, against <span class="num font-semibold">70 GB</span> of weights
+  </div>
+</div>
 
 <div class="note insight">
 <b>Key insight</b>
@@ -429,11 +451,19 @@ At 40 concurrent requests: 208 GB of cache, against 70 GB of weights</div>
 
 <p>Full fine-tuning updates every weight and requires memory for the model, its gradients and its optimiser state — several times the inference footprint. LoRA sidesteps this by freezing the base model and training small low-rank matrices alongside it. QLoRA goes further, quantising the frozen base to four bits while training the adapters at higher precision.</p>
 
-<div class="calc">Adapter footprint
-
-Full fine-tune, 70B          ~1,000 GB of training memory
-LoRA, rank 16, 70B                ~200 MB of trained adapter
-Adapters servable per GPU              dozens, hot-swapped</div>
+<div class="calc workings">
+  <div class="calc-title">Adapter footprint</div>
+  <table class="calc-table">
+    <thead>
+      <tr><th>Approach</th><th>Footprint / Memory</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Full fine-tune, 70B</td><td class="num">~1,000 GB training memory</td></tr>
+      <tr><td>LoRA, rank 16, 70B</td><td class="num text-accent">~200 MB trained adapter</td></tr>
+      <tr><td>Adapters servable per GPU</td><td class="num">dozens, hot-swapped</td></tr>
+    </tbody>
+  </table>
+</div>
 
 <div class="note insight">
 <b>Key insight</b>
@@ -576,19 +606,23 @@ Adapters servable per GPU              dozens, hot-swapped</div>
 
 <p>Model APIs price input and output tokens separately, and the difference is not cosmetic. Output runs approximately five times input at Anthropic and six times at OpenAI. A verbose model is therefore more expensive than its headline input price suggests, and the gap widens with every reasoning token it emits before answering.</p>
 
-<div class="calc">Blended cost of one request
-
-  cost = (input_tokens x input_price + output_tokens x output_price) / 1,000,000
-
-Worked, a document-summary call
-  Input     18,000 tokens
-  Output       900 tokens
-  Input price     USD 3.00 per million
-  Output price    USD 15.00 per million
-
-  (18,000 x 3 + 900 x 15) / 1,000,000 = USD 0.0675 per call
-
-At 40,000 calls a month: USD 2,700</div>
+<div class="calc workings">
+  <div class="calc-title">Blended cost of one request</div>
+  <div class="calc-formula-box">
+    <code class="num">cost = (input_tokens × input_price + output_tokens × output_price) / 1,000,000</code>
+  </div>
+  <div class="calc-subhead">Worked example: Document-summary call</div>
+  <table class="calc-table">
+    <tbody>
+      <tr><td>Input traffic</td><td class="num">18,000 tokens @ $3.00 / M</td></tr>
+      <tr><td>Output generation</td><td class="num">900 tokens @ $15.00 / M</td></tr>
+      <tr class="font-medium"><td>Single call cost</td><td class="num text-accent">(18,000 × 3 + 900 × 15) / 1,000,000 = $0.0675</td></tr>
+    </tbody>
+  </table>
+  <div class="calc-summary">
+    At <span class="num font-semibold">40,000</span> calls / month: <strong class="num font-semibold">$2,700</strong>
+  </div>
+</div>
 
 <p>Three structural facts about pricing as at September 2026, each of which changes an architecture decision:</p>
 
@@ -658,15 +692,45 @@ At 40,000 calls a month: USD 2,700</div>
 </tbody>
 </table>
 
-<div class="calc">The retrieval pipeline that survives production
-
-  query
-    -> query rewrite            resolve pronouns, expand acronyms
-    -> hybrid search            lexical + vector, retrieve ~50
-    -> rerank                   cross-encoder, keep top ~5
-    -> assemble                 headings, dates, source labels
-    -> generate                 with citation requirement
-    -> verify                   claims traceable to retrieved spans</div>
+<div class="calc workings">
+  <div class="calc-title">The retrieval pipeline that survives production</div>
+  <ul class="calc-pipeline">
+    <li>
+      <span class="step-label">query</span>
+      <span class="step-desc">user input</span>
+    </li>
+    <li>
+      <span class="step-arrow">→</span>
+      <span class="step-label">query rewrite</span>
+      <span class="step-desc">resolve pronouns, expand acronyms</span>
+    </li>
+    <li>
+      <span class="step-arrow">→</span>
+      <span class="step-label">hybrid search</span>
+      <span class="step-desc">lexical + vector, retrieve <code class="num">~50</code></span>
+    </li>
+    <li>
+      <span class="step-arrow">→</span>
+      <span class="step-label">rerank</span>
+      <span class="step-desc">cross-encoder, keep top <code class="num">~5</code></span>
+    </li>
+    <li>
+      <span class="step-arrow">→</span>
+      <span class="step-label">assemble</span>
+      <span class="step-desc">headings, dates, source labels</span>
+    </li>
+    <li>
+      <span class="step-arrow">→</span>
+      <span class="step-label">generate</span>
+      <span class="step-desc">with citation requirement</span>
+    </li>
+    <li>
+      <span class="step-arrow">→</span>
+      <span class="step-label">verify</span>
+      <span class="step-desc">claims traceable to retrieved spans</span>
+    </li>
+  </ul>
+</div>
 
 <div class="note insight">
 <b>Key insight</b>
@@ -799,13 +863,26 @@ At 40,000 calls a month: USD 2,700</div>
 
 <p>Multi-agent designs assign roles to separate agents that pass work between them. The appeal is organisational — it mirrors how a team works. The cost is that every hand-off is a lossy compression of context, and errors accumulate multiplicatively rather than additively.</p>
 
-<div class="calc">Reliability under composition
-
-  single agent, 90% per step, 5 steps
-    0.90^5 = 59% task success
-
-  four agents, 90% per agent, hand-offs at 95%
-    0.90^4 x 0.95^3 = 56%, with four times the tokens</div>
+<div class="calc workings">
+  <div class="calc-title">Reliability under composition</div>
+  <table class="calc-table">
+    <thead>
+      <tr><th>Architecture</th><th>Equation</th><th>Success Rate</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Single agent, 90% / step, 5 steps</td>
+        <td class="num">0.90<sup>5</sup></td>
+        <td class="num font-semibold text-accent">59% task success</td>
+      </tr>
+      <tr>
+        <td>Four agents, 90% / agent, hand-offs @ 95%</td>
+        <td class="num">0.90<sup>4</sup> × 0.95<sup>3</sup></td>
+        <td class="num font-semibold text-accent">56% (4× token cost)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <table class="dt">
 <thead><tr><th>Pattern</th><th>Shape</th><th>Justified when</th></tr></thead>
@@ -947,17 +1024,26 @@ At 40,000 calls a month: USD 2,700</div>
 <figcaption>Decode dominates both time and cost on almost every request. Optimisations that do not reduce output tokens or route to a cheaper model are working on the smaller half of the bill.</figcaption>
 </figure>
 
-<div class="calc">One request, end to end
-
-  1  embed the query                    ~5 ms      negligible cost
-  2  hybrid search, retrieve 50        ~30 ms      infrastructure
-  3  rerank to 5                       ~60 ms      small model call
-  4  assemble prompt                     ~1 ms     18,000 input tokens
-  5  prefill                          ~400 ms      billed as input
-  6  decode 900 tokens                ~4.5 s       billed as output, 5-6x
-  7  verify citations                  ~80 ms      small model call
-
-  Latency  ~5.1 s      Cost  ~USD 0.07      Dominated by step 6</div>
+<div class="calc workings">
+  <div class="calc-title">One request, end to end</div>
+  <table class="calc-table">
+    <thead>
+      <tr><th>#</th><th>Step Action</th><th>Latency</th><th>Cost / Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="num">1</td><td>embed the query</td><td class="num">~5 ms</td><td class="text-muted text-xs">negligible cost</td></tr>
+      <tr><td class="num">2</td><td>hybrid search, retrieve 50</td><td class="num">~30 ms</td><td class="text-muted text-xs">infrastructure</td></tr>
+      <tr><td class="num">3</td><td>rerank to 5</td><td class="num">~60 ms</td><td class="text-muted text-xs">small model call</td></tr>
+      <tr><td class="num">4</td><td>assemble prompt</td><td class="num">~1 ms</td><td class="text-muted text-xs">18,000 input tokens</td></tr>
+      <tr><td class="num">5</td><td>prefill</td><td class="num">~400 ms</td><td class="text-muted text-xs">billed as input</td></tr>
+      <tr><td class="num">6</td><td>decode 900 tokens</td><td class="num">~4.5 s</td><td class="text-muted text-xs font-semibold text-accent">billed as output, 5–6×</td></tr>
+      <tr><td class="num">7</td><td>verify citations</td><td class="num">~80 ms</td><td class="text-muted text-xs">small model call</td></tr>
+    </tbody>
+  </table>
+  <div class="calc-summary">
+    Latency <strong class="num font-semibold">~5.1 s</strong> &nbsp;·&nbsp; Cost <strong class="num font-semibold">~$0.07</strong> &nbsp;·&nbsp; Dominated by step 6
+  </div>
+</div>
 
 <div class="note rule">
 <b>Permanent rule</b>
@@ -1006,23 +1092,33 @@ At 40,000 calls a month: USD 2,700</div>
 
 <h2 id="confuse">Never confuse</h2>
 
-<div class="calc">Parameters              is not   file size          precision decides it
-Model                   is not   system             one layer of six
-Training                is not   inference          opposite economics
-FLOPS                   is not   throughput         bandwidth binds inference
-Context window          is not   memory             it resets every call
-Context window          is not   storage            retrieval puts in less
-Fine-tuning             is not   knowledge          it changes behaviour
-Open weights            is not   open source        the recipe is withheld
-Total parameters        is not   active parameters  MoE stores more than it computes
-Embedding search        is not   relevance          reranking is
-Vector database         is not   required           pgvector until measured otherwise
-Workflow                is not   agent              who chooses the sequence
-Multi-agent             is not   more reliable      hand-offs compound error
-Tool description        is not   documentation      it is the selection mechanism
-Benchmark score         is not   fitness            your fifty examples are
-System prompt           is not   a security control code is
-Capability              is not   permission         the 2026 split</div>
+<div class="calc workings">
+  <div class="calc-title">Distinctions matrix</div>
+  <table class="calc-table">
+    <thead>
+      <tr><th>Concept</th><th></th><th>Not To Be Confused With</th><th>Key Distinction</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Parameters</td><td class="calc-op">is not</td><td>file size</td><td class="text-muted text-xs">precision decides it</td></tr>
+      <tr><td>Model</td><td class="calc-op">is not</td><td>system</td><td class="text-muted text-xs">one layer of six</td></tr>
+      <tr><td>Training</td><td class="calc-op">is not</td><td>inference</td><td class="text-muted text-xs">opposite economics</td></tr>
+      <tr><td>FLOPS</td><td class="calc-op">is not</td><td>throughput</td><td class="text-muted text-xs">bandwidth binds inference</td></tr>
+      <tr><td>Context window</td><td class="calc-op">is not</td><td>memory</td><td class="text-muted text-xs">it resets every call</td></tr>
+      <tr><td>Context window</td><td class="calc-op">is not</td><td>storage</td><td class="text-muted text-xs">retrieval puts in less</td></tr>
+      <tr><td>Fine-tuning</td><td class="calc-op">is not</td><td>knowledge</td><td class="text-muted text-xs">it changes behaviour</td></tr>
+      <tr><td>Open weights</td><td class="calc-op">is not</td><td>open source</td><td class="text-muted text-xs">the recipe is withheld</td></tr>
+      <tr><td>Total parameters</td><td class="calc-op">is not</td><td>active parameters</td><td class="text-muted text-xs">MoE stores more than it computes</td></tr>
+      <tr><td>Embedding search</td><td class="calc-op">is not</td><td>relevance</td><td class="text-muted text-xs">reranking is</td></tr>
+      <tr><td>Vector database</td><td class="calc-op">is not</td><td>required</td><td class="text-muted text-xs">pgvector until measured otherwise</td></tr>
+      <tr><td>Workflow</td><td class="calc-op">is not</td><td>agent</td><td class="text-muted text-xs">who chooses the sequence</td></tr>
+      <tr><td>Multi-agent</td><td class="calc-op">is not</td><td>more reliable</td><td class="text-muted text-xs">hand-offs compound error</td></tr>
+      <tr><td>Tool description</td><td class="calc-op">is not</td><td>documentation</td><td class="text-muted text-xs">selection mechanism</td></tr>
+      <tr><td>Benchmark score</td><td class="calc-op">is not</td><td>fitness</td><td class="text-muted text-xs">your fifty examples are</td></tr>
+      <tr><td>System prompt</td><td class="calc-op">is not</td><td>security control</td><td class="text-muted text-xs">code is</td></tr>
+      <tr><td>Capability</td><td class="calc-op">is not</td><td>permission</td><td class="text-muted text-xs">the 2026 split</td></tr>
+    </tbody>
+  </table>
+</div>
 
 <h2 id="retain">What must survive</h2>
 

@@ -43,6 +43,12 @@ function processHtmlNoteContent(rawContent: string): string {
     return `<style>${scopedCss}</style>`;
   });
 
+  // 4. Wrap standalone tables in .table-wrapper for touch scrolling, sticky first column, and right-edge scroll cue
+  clean = clean.replace(/<table(?:\s+[^>]*)?>[\s\S]*?<\/table>/gi, (tableHtml) => {
+    if (tableHtml.includes('calc-table')) return tableHtml;
+    return `<div class="table-wrapper">${tableHtml}</div>`;
+  });
+
   return clean;
 }
 
