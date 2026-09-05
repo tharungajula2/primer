@@ -84,18 +84,6 @@ const ResponsivePre = (props: any) => {
     (child: any) => React.isValidElement(child)
   );
 
-  const isFlashcard =
-    props['data-language'] === 'flashcard' ||
-    (codeChild && React.isValidElement(codeChild) && (
-      (codeChild.props as any)['data-language'] === 'flashcard' ||
-      (typeof (codeChild.props as any)?.className === 'string' && (codeChild.props as any).className.includes('language-flashcard'))
-    ));
-
-  if (isFlashcard) {
-    // Strip flashcard blocks completely from the render tree!
-    return null;
-  }
-
   const isMermaid = 
     props['data-language'] === 'mermaid' ||
     (codeChild && React.isValidElement(codeChild) && (

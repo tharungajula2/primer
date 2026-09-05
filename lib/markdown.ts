@@ -7,16 +7,6 @@ const contentDirectory = path.join(process.cwd(), 'content');
 export type ContentFormat = 'md' | 'html';
 export type ContentSeries = 'masterclass' | 'atom';
 
-export interface Flashcard {
-  id: string;
-  slug: string;
-  section: string;
-  sectionId: string;
-  sectionIndex: number;
-  question: string;
-  answer: string;
-}
-
 export interface DocumentMeta {
   slug: string;
   title: string;
@@ -36,7 +26,6 @@ export interface DocumentMeta {
 
 export interface DocumentData extends DocumentMeta {
   content: string;
-  flashcards: Flashcard[];
 }
 
 // Rough estimate of words per minute for reading
@@ -81,126 +70,6 @@ function formatDateString(val: any): string {
   return String(val).trim();
 }
 
-export function extractHtmlFlashcards(content: string, slug: string): Flashcard[] {
-  const flashcards: Flashcard[] = [];
-  const scriptRegex = /<script\s+id=["']primer-flashcards["']\s+type=["']application\/json["'][^>]*>([\s\S]*?)<\/script>/i;
-  const match = scriptRegex.exec(content);
-
-  if (!match) return flashcards;
-
-  try {
-    const rawJson = match[1].trim();
-    const parsed = JSON.parse(rawJson);
-
-    if (Array.isArray(parsed)) {
-      parsed.forEach((item: any, idx: number) => {
-        const question = item.question || item.q || '';
-        const answer = item.answer || item.a || '';
-        const section = item.section || 'Overview';
-        const sectionId = section
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, '')
-          .replace(/[\s_-]+/g, '-')
-          .replace(/^-+|-+$/g, '');
-
-        if (question || answer) {
-          flashcards.push({
-            id: `${slug}-fc-${idx + 1}`,
-            slug,
-            section,
-            sectionId,
-            sectionIndex: idx + 1,
-            question: String(question).trim(),
-            answer: String(answer).trim(),
-          });
-        }
-      });
-    }
-  } catch (err) {
-    console.error(`Failed to parse primer-flashcards script in ${slug}:`, err);
-  }
-
-  return flashcards;
-}
-
-export function extractFlashcards(content: string, slug: string): Flashcard[] {
-  const htmlCards = extractHtmlFlashcards(content, slug);
-  if (htmlCards.length > 0) {
-    return htmlCards;
-  }
-
-  const lines = content.split('\n');
-  const flashcards: Flashcard[] = [];
-  
-  let currentSection = 'Overview';
-  let currentSectionId = 'overview';
-  let sectionIndex = 0;
-  let cardIndex = 0;
-  
-  let inFlashcardBlock = false;
-  let blockLines: string[] = [];
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-
-    if (line.startsWith('## ')) {
-      currentSection = line.replace(/^##\s+/, '').trim();
-      currentSectionId = currentSection
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/[\s_-]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-      sectionIndex++;
-    }
-
-    if (line.trim().startsWith('```flashcard')) {
-      inFlashcardBlock = true;
-      blockLines = [];
-      continue;
-    }
-
-    if (inFlashcardBlock && line.trim() === '```') {
-      inFlashcardBlock = false;
-      cardIndex++;
-
-      let question = '';
-      let answer = '';
-
-      for (const bLine of blockLines) {
-        const trimmed = bLine.trim();
-        if (trimmed.startsWith('Q:') || trimmed.startsWith('Question:')) {
-          question = trimmed.replace(/^(Q:|Question:)\s*/i, '').trim();
-        } else if (trimmed.startsWith('A:') || trimmed.startsWith('Answer:')) {
-          answer = trimmed.replace(/^(A:|Answer:)\s*/i, '').trim();
-        } else if (question && !answer) {
-          question += ' ' + trimmed;
-        } else if (answer) {
-          answer += ' ' + trimmed;
-        }
-      }
-
-      if (question || answer) {
-        flashcards.push({
-          id: `${slug}-fc-${cardIndex}`,
-          slug,
-          section: currentSection,
-          sectionId: currentSectionId,
-          sectionIndex,
-          question: question.trim(),
-          answer: answer.trim(),
-        });
-      }
-      continue;
-    }
-
-    if (inFlashcardBlock) {
-      blockLines.push(line);
-    }
-  }
-
-  return flashcards;
-}
-
 export function getSortedDocumentsData(): DocumentMeta[] {
   // Check if directory exists
   if (!fs.existsSync(contentDirectory)) {
@@ -227,9 +96,8 @@ export function getSortedDocumentsData(): DocumentMeta[] {
         ? 'md' 
         : (matterResult.data.format ? matterResult.data.format : (isHtml ? 'html' : 'md'));
       
-      const series: ContentSeries = matterResult.data.series 
-        ? matterResult.data.series 
-        : (format === 'html' ? 'atom' : 'masterclass');
+      // Decouple series from format: defaults to masterclass unless authored
+      const series: ContentSeries = matterResult.data.series ? matterResult.data.series : 'masterclass';
 
       return {
         slug,
@@ -285,11 +153,7 @@ export function getDocumentData(slug: string): DocumentData | null {
     ? 'md' 
     : (matterResult.data.format ? matterResult.data.format : (isHtml ? 'html' : 'md'));
   
-  const series: ContentSeries = matterResult.data.series 
-    ? matterResult.data.series 
-    : (format === 'html' ? 'atom' : 'masterclass');
-
-  const flashcards = extractFlashcards(matterResult.content, slug);
+  const series: ContentSeries = matterResult.data.series ? matterResult.data.series : 'masterclass';
 
   return {
     slug,
@@ -307,25 +171,5 @@ export function getDocumentData(slug: string): DocumentData | null {
     readTime,
     wordCount,
     content: matterResult.content,
-    flashcards,
   };
-}
-
-export function getAllFlashcards(): Flashcard[] {
-  if (!fs.existsSync(contentDirectory)) return [];
-
-  const fileNames = fs.readdirSync(contentDirectory);
-  const allCards: Flashcard[] = [];
-
-  fileNames.forEach((fileName) => {
-    if (!fileName.endsWith('.md') && !fileName.endsWith('.html')) return;
-    const slug = fileName.replace(/\.(md|html)$/, '');
-    const fullPath = path.join(contentDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const matterResult = matter(fileContents);
-    const cards = extractFlashcards(matterResult.content, slug);
-    allCards.push(...cards);
-  });
-
-  return allCards;
 }

@@ -1,0 +1,434 @@
+:root {
+  --html-bg: #FFFFFF;
+  --html-surface: #F8FAFC;
+  --html-raise: #F1F5F9;
+  --html-ink: #0F172A;
+  --html-body: #334155;
+  --html-muted: #64748B;
+  --html-faint: #94A3B8;
+  --html-border: #E2E8F0;
+  --html-accent: #2563EB;
+  --html-accent-dim: #93C5FD;
+  --html-warn: #DC2626;
+  --html-warn-dim: #FCA5A5;
+  --html-ok: #16A34A;
+  --html-ok-dim: #86EFAC;
+  --html-live: #0284C7;
+  --html-live-dim: #7DD3FC;
+}
+
+/* Container styling for HTML notes */
+.primer-html-note, .atom-content {
+  background-color: var(--html-bg);
+  color: var(--html-body);
+  font-family: var(--font-serif), ui-serif, Georgia, Cambria, serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+/* Card-scroll rhythm & section reveal */
+.primer-html-note section, .atom-content section {
+  padding: 2.75rem 0 3.25rem;
+  border-bottom: 1px solid var(--html-border);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.primer-html-note section.in, .atom-content section.in {
+  opacity: 1;
+  transform: none;
+}
+
+.primer-html-note section:last-child, .atom-content section:last-child {
+  border-bottom: none;
+  padding-bottom: 5rem;
+}
+
+/* Eyebrow & Labels */
+.primer-html-note .eyebrow, .atom-content .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.primer-html-note .label, .atom-content .label {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--html-accent);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.primer-html-note .label.q, .atom-content .label.q { background: var(--html-warn); }
+.primer-html-note .label.r, .atom-content .label.r { background: var(--html-ok); }
+.primer-html-note .label.l, .atom-content .label.l { background: var(--html-live); }
+
+.primer-html-note .tag, .atom-content .tag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--html-muted);
+}
+
+.primer-html-note .kick, .atom-content .kick {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--html-accent);
+  margin-bottom: 0.75rem;
+}
+
+/* Headings & Typography */
+.primer-html-note h2, .atom-content h2 {
+  font-family: var(--font-serif), serif;
+  font-weight: 700;
+  font-size: 1.875rem;
+  line-height: 1.25;
+  color: var(--html-ink);
+  margin: 1.5rem 0 1rem;
+  letter-spacing: -0.015em;
+}
+
+.primer-html-note h3, .atom-content h3, .primer-html-note .card-title, .atom-content .card-title {
+  font-family: var(--font-serif), serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  color: var(--html-ink);
+  margin: 0 0 1rem;
+  letter-spacing: -0.01em;
+}
+
+.primer-html-note p, .atom-content p {
+  margin-bottom: 1rem;
+  color: var(--html-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.primer-html-note strong, .atom-content strong {
+  color: var(--html-ink);
+  font-weight: 600;
+}
+
+.primer-html-note .k, .atom-content .k {
+  color: var(--html-accent);
+  font-weight: 600;
+}
+
+.primer-html-note code, .atom-content code {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.85em;
+  background: var(--html-raise);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  color: var(--html-ink);
+}
+
+.primer-html-note .note, .atom-content .note {
+  border-left: 3px solid var(--html-accent);
+  padding: 0.5rem 0 0.5rem 1rem;
+  margin: 1.25rem 0;
+  background: var(--html-surface);
+  color: var(--html-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+.primer-html-note ul, .atom-content ul {
+  margin: 0 0 1rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.primer-html-note li, .atom-content li {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.primer-html-note li:before, .atom-content li:before {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: 0.65rem;
+  width: 0.375rem;
+  height: 0.0625rem;
+  background: var(--html-accent);
+}
+
+/* Data Tables */
+.primer-html-note .dt, .atom-content .dt {
+  margin: 1.5rem 0;
+  border: 1px solid var(--html-border);
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  background: var(--html-surface);
+}
+
+.primer-html-note .dt table, .atom-content .dt table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 420px;
+}
+
+.primer-html-note .dt th, .atom-content .dt th {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--html-muted);
+  text-align: left;
+  font-weight: 600;
+  padding: 0.625rem 0.875rem;
+  border-bottom: 1px solid var(--html-border);
+  background: var(--html-raise);
+}
+
+.primer-html-note .dt td, .atom-content .dt td {
+  padding: 0.625rem 0.875rem;
+  border-bottom: 1px solid var(--html-border);
+  vertical-align: top;
+  color: var(--html-body);
+}
+
+.primer-html-note .dt tr:last-child td, .atom-content .dt tr:last-child td {
+  border-bottom: none;
+}
+
+.primer-html-note .dt td:first-child, .atom-content .dt td:first-child {
+  color: var(--html-ink);
+  font-weight: 600;
+}
+
+.primer-html-note .dt .n, .atom-content .dt .n {
+  font-family: var(--font-mono), monospace;
+  color: var(--html-accent);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.primer-html-note .dt .g, .atom-content .dt .g {
+  color: var(--html-muted);
+}
+
+.primer-html-note .dt tr.hi td, .atom-content .dt tr.hi td {
+  background: rgba(37, 99, 235, 0.06);
+}
+
+/* Grids & Cards */
+.primer-html-note .two, .atom-content .two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.primer-html-note .two > div, .atom-content .two > div {
+  padding: 0.875rem 1rem;
+  background: var(--html-surface);
+  border: 1px solid var(--html-border);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.primer-html-note .two > div b, .atom-content .two > div b {
+  display: block;
+  color: var(--html-accent);
+  font-size: 0.6875rem;
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.375rem;
+}
+
+.primer-html-note .three, .atom-content .three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.primer-html-note .three > div, .atom-content .three > div {
+  padding: 0.75rem 0.875rem;
+  background: var(--html-surface);
+  border: 1px solid var(--html-border);
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.primer-html-note .three > div b, .atom-content .three > div b {
+  display: block;
+  color: var(--html-accent);
+  font-size: 0.6875rem;
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.375rem;
+}
+
+@media (max-width: 640px) {
+  .primer-html-note .two, .atom-content .two,
+  .primer-html-note .three, .atom-content .three {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Stamps & Sources */
+.primer-html-note .stamp, .atom-content .stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--html-live);
+  border: 1px solid var(--html-live-dim);
+  border-radius: 9999px;
+  padding: 0.25rem 0.625rem;
+  margin-bottom: 0.875rem;
+  background: var(--html-surface);
+}
+
+.primer-html-note .stamp:before, .atom-content .stamp:before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--html-live);
+}
+
+.primer-html-note .src, .atom-content .src {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--html-muted);
+  margin-top: 0.75rem;
+  line-height: 1.6;
+}
+
+/* Cheatsheet & Callout Box */
+.primer-html-note .sheet, .atom-content .sheet {
+  margin: 1.25rem 0;
+  border: 1px solid var(--html-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.primer-html-note .sheet .h, .atom-content .sheet .h {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--html-accent);
+  padding: 0.5rem 0.875rem;
+}
+
+.primer-html-note .sheet .r, .atom-content .sheet .r {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  border-bottom: 1px solid var(--html-border);
+  font-size: 0.8125rem;
+  background: var(--html-surface);
+}
+
+.primer-html-note .sheet .r:last-child, .atom-content .sheet .r:last-child {
+  border-bottom: none;
+}
+
+.primer-html-note .sheet .r b, .atom-content .sheet .r b {
+  flex: 0 0 35%;
+  color: var(--html-ink);
+  font-weight: 600;
+}
+
+/* Diagrams & Layouts */
+.primer-html-note .dg, .atom-content .dg {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1rem;
+  background: var(--html-surface);
+  border: 1px solid var(--html-border);
+  border-radius: 0.5rem;
+}
+
+.primer-html-note .dg-t, .atom-content .dg-t {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--html-muted);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.primer-html-note .flow .n, .atom-content .flow .n {
+  padding: 0.75rem 1rem;
+  background: var(--html-raise);
+  border: 1px solid var(--html-border);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.primer-html-note .flow .a, .atom-content .flow .a {
+  text-align: center;
+  color: var(--html-accent);
+  font-size: 1rem;
+  padding: 0.375rem 0;
+}
+
+.primer-html-note .lay, .atom-content .lay {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.375rem;
+}
+
+.primer-html-note .lay div, .atom-content .lay div {
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.375rem;
+  background: var(--html-raise);
+  border: 1px solid var(--html-border);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+}
+
+.primer-html-note .lay div span, .atom-content .lay div span {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  color: var(--html-muted);
+  flex-shrink: 0;
+  width: 1rem;
+}
+
+.primer-html-note .cross, .atom-content .cross {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px dashed var(--html-accent-dim);
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--html-muted);
+  text-align: center;
+  font-family: var(--font-mono), monospace;
+}
+
+/* SVG responsiveness */
+.primer-html-note svg, .atom-content svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

@@ -16,14 +16,24 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
   const [activeId, setActiveId] = useState<string>('');
   const [isTocOpen, setIsTocOpen] = useState(false);
   const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
+  const [progress, setProgress] = useState(0);
   const tocNavRef = useRef<HTMLElement>(null);
   
   useEffect(() => {
     const handleScroll = () => {
-      setScrolledPastHeader(window.scrollY > 100);
+      setScrolledPastHeader(window.scrollY > 80);
+
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight <= 0) {
+        setProgress(0);
+      } else {
+        const pct = Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100));
+        setProgress(pct);
+      }
     };
     
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -58,35 +68,51 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
     }
   }, [activeId]);
 
-  const [progress, setProgress] = useState(0);
+  // Section reveal observer for HTML notes or markdown sections
   useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight <= 0) return setProgress(0);
-      setProgress((window.scrollY / totalHeight) * 100);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const sections = Array.from(document.querySelectorAll('.primer-html-note section, .atom-content section'));
+    if (sections.length === 0) return;
 
-  const showTocButton = headings.length >= 4;
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: '0px 0px -8% 0px', threshold: 0.04 }
+      );
+
+      sections.forEach((sec) => {
+        if (!sec.classList.contains('in')) {
+          observer.observe(sec);
+        }
+      });
+
+      return () => observer.disconnect();
+    } else {
+      sections.forEach((sec) => sec.classList.add('in'));
+    }
+  }, [children]);
+
+  const showTocButton = headings.length >= 2;
 
   return (
     <div className="flex-1 flex flex-col w-full min-w-0">
-      {/* Top Bar */}
+      {/* Top Bar Header */}
       <header 
         className={clsx(
-          "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
-          scrolledPastHeader 
-            ? "py-2 bg-background/80 backdrop-blur-md backdrop-saturate-150 border-b border-border shadow-xs" 
-            : "py-4 sm:py-5 bg-transparent border-b border-transparent backdrop-blur-none"
+          "fixed top-0 left-0 right-0 z-40 h-14 bg-background/80 backdrop-blur-md backdrop-saturate-150 border-b border-border/40 transition-all duration-300"
         )}
       >
-        <div className="w-full max-w-[90rem] mx-auto px-3 md:px-6 lg:px-8 xl:px-12 flex items-center justify-between gap-4">
+        <div className="w-full max-w-[90rem] mx-auto h-full px-3 md:px-6 lg:px-8 xl:px-12 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 overflow-hidden min-w-0">
             <Link 
               href="/" 
-              className="p-2 -ml-2 rounded-full hover:bg-black/5 active:bg-black/10 transition-colors shrink-0"
+              className="p-2 -ml-2 rounded-full hover:bg-black/5 active:bg-black/10 transition-colors shrink-0 text-foreground/80 hover:text-foreground"
               aria-label="Back to shelf"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -94,7 +120,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             
             <h1 
               className={clsx(
-                "font-medium text-sm truncate transition-opacity duration-300 min-w-0",
+                "font-medium text-sm text-foreground truncate transition-opacity duration-300 min-w-0",
                 scrolledPastHeader ? "opacity-100" : "opacity-0"
               )}
             >
@@ -106,7 +132,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             {showTocButton && (
               <button
                 onClick={() => setIsTocOpen(true)}
-                className="p-2 rounded-full hover:bg-black/5 active:bg-black/10 transition-colors lg:hidden"
+                className="p-2 rounded-full hover:bg-black/5 active:bg-black/10 transition-colors lg:hidden text-foreground/80 hover:text-foreground"
                 aria-label="Table of contents"
               >
                 <List className="w-5 h-5" />
@@ -115,22 +141,22 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
           </div>
         </div>
         
-        {/* Progress Bar */}
-        <div className="absolute bottom-0 left-0 h-[2px] bg-foreground/20 w-full">
+        {/* Scroll Progress Bar - Clean 2px indicator pinned to bottom border, no heavy track */}
+        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-transparent pointer-events-none">
           <div 
-            className="h-full bg-foreground transition-all duration-75 ease-out" 
+            className="h-full bg-foreground/90 transition-all duration-75 ease-out" 
             style={{ width: `${progress}%` }} 
           />
         </div>
       </header>
 
       {/* Main Layout Container */}
-      <div className="w-full max-w-[90rem] mx-auto px-3 md:px-6 lg:px-8 xl:px-12 pt-24 pb-32 lg:grid lg:grid-cols-[16rem_1fr] xl:grid-cols-[18rem_1fr] lg:gap-8 xl:gap-12 items-start min-w-0 flex-1">
+      <div className="w-full max-w-[90rem] mx-auto px-3 md:px-6 lg:px-8 xl:px-12 pt-20 pb-32 lg:grid lg:grid-cols-[16rem_1fr] xl:grid-cols-[18rem_1fr] lg:gap-8 xl:gap-12 items-start min-w-0 flex-1">
         {/* Column 1: Desktop Side Rail TOC */}
         {showTocButton ? (
           <aside 
             ref={tocNavRef}
-            className="hidden lg:block w-full sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto no-scrollbar py-2 border-r border-border/40 pr-4"
+            className="hidden lg:block w-full sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar py-2 border-r border-border/40 pr-4"
           >
             <h2 className="font-semibold text-xs uppercase tracking-wider text-muted mb-4 px-2">
               Contents
@@ -146,7 +172,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
                     e.preventDefault();
                     const el = document.getElementById(heading.id);
                     if (el) {
-                      const y = el.getBoundingClientRect().top + window.scrollY - 80;
+                      const y = el.getBoundingClientRect().top + window.scrollY - 70;
                       window.scrollTo({ top: y, behavior: 'smooth' });
                     }
                   }}
@@ -189,7 +215,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
               {doc.description}
             </p>
 
-            {/* Phase 8 Quiet Single-Line Metadata Strip */}
+            {/* Single-Line Metadata Strip */}
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted/70 pt-3 border-t border-border/40">
               <span>{doc.readTime}</span>
               <span>&middot;</span>
@@ -207,8 +233,8 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             </div>
           </header>
 
-          {/* Rendered Markdown Body */}
-          <article className="prose w-full min-w-0 max-w-none">
+          {/* Rendered Body */}
+          <article className="w-full min-w-0 max-w-none">
             {children}
           </article>
         </main>
@@ -245,7 +271,7 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
                     setIsTocOpen(false);
                     const el = document.getElementById(heading.id);
                     if (el) {
-                      const y = el.getBoundingClientRect().top + window.scrollY - 80;
+                      const y = el.getBoundingClientRect().top + window.scrollY - 70;
                       window.scrollTo({ top: y, behavior: 'smooth' });
                     }
                   }}

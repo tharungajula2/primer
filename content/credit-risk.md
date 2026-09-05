@@ -69,16 +69,6 @@ A recovery outcome. What remained unrecovered after enforcement. Measured by LGD
 
 A borrower who defaults and repays fully in the workout is a high PD event with near-zero loss. A borrower who never misses a date but forces a settlement at 70 paise is a zero PD event with high loss.
 
-```flashcard
-Q: What are the three components of expected loss and where is each managed?
-A: PD at underwriting, LGD at documentation, EAD at structuring.
-```
-
-```flashcard
-Q: Can a borrower cause a large credit loss without ever defaulting?
-A: Yes. A negotiated settlement below full dues produces loss with no default event.
-```
-
 ## 2. Borrower object model
 
 | Object | Answers | Level |
@@ -92,11 +82,6 @@ A: Yes. A negotiated settlement below full dues produces loss with no default ev
 :::mental-model
 Risk aggregates upward to the group. Obligation attaches downward to one legal person. Exposure is measured where the cash comes from; enforcement happens against whoever signed.
 :::
-
-```flashcard
-Q: Why must a system hold obligor and group as separate objects?
-A: A healthy obligor can sit inside a distressed group. The lending decision is impossible unless the two levels are held apart.
-```
 
 ## 3. Exposure quantities
 
@@ -124,11 +109,6 @@ CCF                    20%
 Undrawn limits are drawn precisely when the lender would least like it. A borrower heading for default takes everything available while it is still available. The regulatory CCF is a capital floor, not a forecast — observed EAD at default approaches the full limit.
 :::
 
-```flashcard
-Q: Why is the outstanding balance the wrong exposure measure for a revolving facility?
-A: The undrawn portion is drawn during deterioration. EAD at default approaches the sanctioned limit.
-```
-
 ## 4. Segment machinery
 
 | | Retail | MSME | Corporate |
@@ -143,11 +123,6 @@ A: The undrawn portion is drawn during deterioration. EAD at default approaches 
 | Modelling | Statistical, pooled | Hybrid | Judgemental, name by name |
 
 Retail losses are statistical and can be priced. Corporate losses are events, and the next one may be twice the size of the last.
-
-```flashcard
-Q: Why can retail credit losses be priced but corporate losses cannot?
-A: Retail defaults are near-independent and fall in a narrow band. Corporate defaults are correlated by sector and arrive together.
-```
 
 ## 5. Credit information companies
 
@@ -164,11 +139,6 @@ Four CICs are registered under CICRA 2005: TransUnion CIBIL, Experian, Equifax, 
 :::trap
 The enquiry count is a leading indicator and is routinely ignored. Four enquiries in six months means three declines or loan stacking. It is visible before any delinquency exists, and it is skipped because the score looks acceptable.
 :::
-
-```flashcard
-Q: What can a bureau report never tell an underwriter?
-A: Income, business cash flow, and any borrowing not reported to the CICs.
-```
 
 ## 6. Cash versus profit
 
@@ -196,11 +166,6 @@ flowchart LR
 
 Growth in a working capital business consumes cash. Faster growth consumes it faster, which is why the most dangerous MSME account is often the one growing fastest.
 
-```flashcard
-Q: Why can a profitable business fail to pay an instalment?
-A: Profit sits in stock and receivables. Only collected cash services debt.
-```
-
 ## 7. Ratios — what each answers and when it misleads
 
 | Ratio | Formula | Question | Comfort | Misleads when |
@@ -227,11 +192,6 @@ Principal due       INR  55 cr
 
 At 1.45 the borrower absorbs a 30% fall in EBITDA before it cannot pay. Leverage describes the position. Coverage predicts the default.
 
-```flashcard
-Q: Which ratio turns into a missed payment first, and why?
-A: DSCR. It measures whether cash covers debt service, which is the event itself.
-```
-
 ## 8. Facility families
 
 | Family | Repayment mechanic | Failure mode | EAD behaviour |
@@ -245,11 +205,6 @@ A: DSCR. It measures whether cash covers debt service, which is the event itself
 | Guarantee-backed | Third party pays on default | Guarantor unenforceable | Full, less guarantee |
 
 A cash credit is renewed annually and almost never repaid. The lender is exposed continuously, near the full limit, for the life of the relationship.
-
-```flashcard
-Q: What is distinctive about the EAD profile of a contingent facility?
-A: Zero until invocation, then full, and invocation coincides with the borrower's inability to reimburse.
-```
 
 ## 9. Drawing power
 
@@ -283,11 +238,6 @@ Permitted drawing         INR 3,96,00,000    lower of DP and limit
 The stock statement is self-reported and is the most manipulated document in MSME lending. Overstated stock and aged debtors shown as current raise drawing power directly. Late submission or round-figure submission is itself the signal.
 :::
 
-```flashcard
-Q: Why are creditors deducted before applying the stock margin?
-A: That portion of stock is already funded by suppliers. Funding it again would double-finance the same asset.
-```
-
 ## 10. Security types
 
 | Type | Example | Behaviour on default | LGD effect |
@@ -301,11 +251,6 @@ A: That portion of stock is already funded by suppliers. Funding it again would 
 | Corporate guarantee | Group company | Correlated with the borrower | Weak |
 
 Security sets LGD, not PD. Current-asset security is worth most when it is least needed: a running factory's inventory has value, a closed one's does not.
-
-```flashcard
-Q: Does taking collateral reduce the probability of default?
-A: Barely. It sets loss given default. Any PD effect is behavioural and small.
-```
 
 ## 11. Charge creation versus perfection
 
@@ -326,11 +271,6 @@ The public registration. Makes the charge good against all other creditors. With
 | Financial assets | Pledge, lien marking | Depository or issuer | On marking |
 
 Adjacent failures with the same effect: stale valuation, unregistered modification of charge, and a guarantee from a guarantor holding nothing in his own name.
-
-```flashcard
-Q: What is the practical consequence of a charge that was created but never registered?
-A: The lender ranks as an unsecured creditor. A loan underwritten at 30% LGD becomes a 75% LGD loan, discovered only at enforcement.
-```
 
 ## 12. Charge ranking
 
@@ -364,11 +304,6 @@ Where the lender stands in the queue for that realisation. A rank.
 
 Asset cover of INR 200 crore behind a INR 55 crore loan is meaningless if the lender sits behind INR 190 crore of first charge.
 
-```flashcard
-Q: Same borrower, same assets, same default — what makes the difference between 20% and 100% LGD?
-A: Charge rank. One line in the sanction letter.
-```
-
 ## 13. Covenants
 
 | Type | Example | Purpose |
@@ -384,11 +319,6 @@ A covenant recovers nothing. Its value is the defined moment at which the lender
 :::trap
 The serial waiver. A covenant breached and waived once is a judgement. Breached and waived four quarters running, the covenant has been repriced to zero and the borrower has learnt the number is decorative. Every large restructuring has a run of quiet waivers in front of it.
 :::
-
-```flashcard
-Q: What does a financial covenant actually protect?
-A: Nothing. It creates a contractual right to intervene early. The information covenant is what makes it usable.
-```
 
 ## 14. Early warning signals
 
@@ -408,11 +338,6 @@ A: Nothing. It creates a contractual right to intervene early. The information c
 :::key-insight
 Behaviour deteriorates before financials, and financials deteriorate before payments. Account behaviour is monthly and real-time; financials are annual and audited. A lender reading only financials is reading its slowest signal.
 :::
-
-```flashcard
-Q: In what order do the three classes of deterioration signal appear?
-A: Account behaviour first, financials second, missed payments last.
-```
 
 ## 15. DPD ladder and SMA
 
@@ -441,16 +366,6 @@ flowchart TD
 The month-end top-up. Funds are deposited before the reporting date and withdrawn after it. The clock resets, the account is standard on every reporting date, and it has not been serviced from business cash for a year. Visible in the account statement, invisible in the classification report.
 :::
 
-```flashcard
-Q: A borrower pays half the arrears on day 85. What is his DPD on day 91?
-A: 91. Part payment does not reset the clock; only clearance of the entire arrears does.
-```
-
-```flashcard
-Q: How does a cash credit account become an NPA when there is no instalment to miss?
-A: By remaining out of order continuously beyond 90 days — outstanding above drawing power, or credits insufficient to cover interest.
-```
-
 ## 16. NPA classification
 
 | Class | Condition | Period |
@@ -463,11 +378,6 @@ A: By remaining out of order continuously beyond 90 days — outstanding above d
 | Loss | Loss identified by bank, auditor or inspection, not yet written off | Any |
 
 Classification is borrower-wise, not facility-wise. All facilities of a borrower classify together.
-
-```flashcard
-Q: One of a borrower's four facilities crosses 90 DPD. What classifies?
-A: All four. Classification is borrower-wise.
-```
 
 ## 17. IRAC provisioning rates
 
@@ -496,11 +406,6 @@ Sub-standard rate                        15%
 
 Rates require verification against the current Master Circular.
 
-```flashcard
-Q: What is the provisioning rate on a secured sub-standard asset, and how does it change as it ages?
-A: 15% at sub-standard, then 25%, 40% and 100% through the doubtful bands.
-```
-
 ## 18. Income recognition on NPA
 
 | Rule | Effect |
@@ -512,11 +417,6 @@ A: 15% at sub-standard, then 25%, 40% and 100% through the doubtful bands.
 | Partly recovered accounts | Income only to the extent realised |
 
 Classification does three things at once: classifies, provides, and stops income — including returning income already booked in earlier periods.
-
-```flashcard
-Q: Beyond the provision, what second hit does classification impose on the P&L?
-A: Reversal of unrealised interest already recognised in prior periods.
-```
 
 ## 19. Restructuring versus evergreening
 
@@ -534,11 +434,6 @@ Restructuring a viable business with a wrong repayment schedule is correct pract
 :::key-insight
 The evergreening tell is arithmetic, not judgement. If new disbursement in and interest servicing out are approximately the same number, nothing is being repaid.
 :::
-
-```flashcard
-Q: What single test distinguishes evergreening from restructuring?
-A: Whether the borrower is servicing debt from business cash or from freshly sanctioned limits.
-```
 
 ## 20. Expected credit loss — Ind AS 109
 
@@ -630,26 +525,6 @@ Provides for loss expected in the future, from day one of a performing loan. A m
 :::
 
 Applicability: NBFCs and HFCs in India report under Ind AS. RBI has deferred Ind AS implementation for banks; banks continue on IRAC. Confirm the current position before relying on it.
-
-```flashcard
-Q: What distinguishes 12-month ECL from lifetime ECL?
-A: The measurement horizon only. Twelve-month ECL is lifetime loss from defaults occurring in the next twelve months, not loss over the next twelve months.
-```
-
-```flashcard
-Q: Why is marginal PD used rather than cumulative PD in the lifetime ECL sum?
-A: Each period's loss must be weighted by the probability of surviving to that period and defaulting in it, otherwise defaults are double counted.
-```
-
-```flashcard
-Q: At what rate is ECL discounted?
-A: The original effective interest rate of the instrument, not a current market rate.
-```
-
-```flashcard
-Q: Which exposure class is hardest to measure lifetime ECL on, and why?
-A: Revolving facilities. They have no contractual maturity, so both the horizon and the future EAD must be estimated behaviourally.
-```
 
 ## 21. Basel — capital for credit risk
 
@@ -769,26 +644,6 @@ Provisions cover expected loss. Capital covers unexpected loss. Expected loss is
 
 All risk weights and ratios require verification against the current Basel III Master Circular.
 
-```flashcard
-Q: What does the 0.999 term in the IRB capital function represent?
-A: The supervisory confidence level — capital is held against a one-in-a-thousand-year loss outcome.
-```
-
-```flashcard
-Q: Why is expected loss subtracted inside the IRB capital formula?
-A: Expected loss is already covered by provisions. Capital is required only for the unexpected portion.
-```
-
-```flashcard
-Q: Why does the IRB formula multiply K by 12.5?
-A: To convert a capital requirement into a risk weighted asset equivalent — 12.5 is the reciprocal of the 8% minimum ratio.
-```
-
-```flashcard
-Q: Which retail class carries the lowest asset correlation and what follows from it?
-A: Qualifying revolving retail at 0.04. Low correlation means low capital per unit of expected loss.
-```
-
 ## 22. Concentration
 
 | Limit | Basis |
@@ -804,11 +659,6 @@ Large Exposures Framework thresholds are set by RBI and revised. Verify.
 :::mental-model
 Diversification is the only free improvement in lending. Better underwriting costs money and takes years to show. Refusing to concentrate a quarter of the book in one sector costs nothing — and is the constraint most often waived while that sector is performing well.
 :::
-
-```flashcard
-Q: Why do sector concentration limits get waived, and when?
-A: While the sector is performing well. Concentration is only visibly expensive after the correlated losses arrive.
-```
 
 ## 23. Recovery routes
 
@@ -835,11 +685,6 @@ flowchart TD
 SARFAESI is unavailable against agricultural land. IBC is resolution, not a recovery suit — control passes from the promoter on admission. Every month of delay costs recovery value: assets deteriorate and the borrower's incentive to cooperate falls once he concludes the business is lost.
 
 Thresholds and timelines under all three have been revised repeatedly. Verify.
-
-```flashcard
-Q: What is the first question that determines the recovery route?
-A: Whether perfected security is held. If yes, SARFAESI. If not, the choice is between IBC and a DRT suit.
-```
 
 ## 24. Named failure modes
 
