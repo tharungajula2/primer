@@ -47,23 +47,115 @@ function remarkDirectiveTransform() {
             type: name,
             ...node.attributes,
           };
-        } else if (name === 'left' || name === 'right') {
-          const data = node.data || (node.data = {});
-          data.hName = 'div';
-          data.hProperties = {
-            className: `never-confuse-half never-confuse-${name} p-3 rounded-md bg-background/50 border border-border/40`,
-          };
-          const title = (node.children?.[0]?.value || node.attributes?.title || (name === 'left' ? 'First Concept' : 'Second Concept')).trim();
-          // Add header badge if label exists
-          if (node.children && node.children.length > 0 && node.children[0].type === 'text') {
-            node.children = [
-              {
-                type: 'html',
-                value: `<div class="font-semibold font-sans text-xs uppercase tracking-wide text-foreground/85 mb-1.5">${node.children[0].value}</div>`
-              },
-              ...node.children.slice(1)
-            ];
+        }
+
+        if (name === 'never-confuse') {
+          const children = node.children || [];
+          let currentHalf: 'left' | 'right' | null = null;
+          let leftTitle = 'First Concept';
+          let rightTitle = 'Second Concept';
+          let leftChildren: any[] = [];
+          let rightChildren: any[] = [];
+          let unassignedChildren: any[] = [];
+          let hasLeft = false;
+          let hasRight = false;
+
+          for (const child of children) {
+            const isDir =
+              child.type === 'leafDirective' ||
+              child.type === 'containerDirective' ||
+              child.type === 'textDirective';
+
+            if (isDir && child.name === 'left') {
+              hasLeft = true;
+              currentHalf = 'left';
+              leftTitle = (
+                child.children?.[0]?.value ||
+                child.attributes?.title ||
+                child.attributes?.['0'] ||
+                'First Concept'
+              ).trim();
+              if (child.children && child.children.length > 1) {
+                leftChildren.push(...child.children.slice(1));
+              }
+            } else if (isDir && child.name === 'right') {
+              hasRight = true;
+              currentHalf = 'right';
+              rightTitle = (
+                child.children?.[0]?.value ||
+                child.attributes?.title ||
+                child.attributes?.['0'] ||
+                'Second Concept'
+              ).trim();
+              if (child.children && child.children.length > 1) {
+                rightChildren.push(...child.children.slice(1));
+              }
+            } else {
+              if (currentHalf === 'left') {
+                leftChildren.push(child);
+              } else if (currentHalf === 'right') {
+                rightChildren.push(child);
+              } else {
+                unassignedChildren.push(child);
+              }
+            }
           }
+
+          if (!hasLeft && !hasRight) {
+            leftChildren = unassignedChildren;
+          } else if (unassignedChildren.length > 0) {
+            leftChildren = [...unassignedChildren, ...leftChildren];
+          }
+
+          const leftHalfNode = {
+            type: 'containerDirective',
+            name: 'left',
+            data: {
+              hName: 'div',
+              hProperties: {
+                className: 'never-confuse-half never-confuse-left p-3.5 rounded-lg bg-background/60 border border-border/40 min-w-0 flex flex-col gap-2',
+              },
+            },
+            children: [
+              {
+                type: 'paragraph',
+                data: {
+                  hName: 'div',
+                  hProperties: {
+                    className: 'font-semibold font-sans text-xs uppercase tracking-wide text-foreground/85 mb-1 border-b border-border/30 pb-1 shrink-0',
+                  },
+                },
+                children: [{ type: 'text', value: leftTitle }],
+              },
+              ...leftChildren,
+            ],
+          };
+
+          const rightHalfNode = {
+            type: 'containerDirective',
+            name: 'right',
+            data: {
+              hName: 'div',
+              hProperties: {
+                className: 'never-confuse-half never-confuse-right p-3.5 rounded-lg bg-background/60 border border-border/40 min-w-0 flex flex-col gap-2',
+              },
+            },
+            children: [
+              {
+                type: 'paragraph',
+                data: {
+                  hName: 'div',
+                  hProperties: {
+                    className: 'font-semibold font-sans text-xs uppercase tracking-wide text-foreground/85 mb-1 border-b border-border/30 pb-1 shrink-0',
+                  },
+                },
+                children: [{ type: 'text', value: rightTitle }],
+              },
+              ...rightChildren,
+            ],
+          };
+
+          node.children = [leftHalfNode, rightHalfNode];
         }
       }
     });

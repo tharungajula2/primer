@@ -233,8 +233,8 @@ export default function ClientReader({ doc, headings, children }: ClientReaderPr
             </div>
           </header>
 
-          {/* Rendered Body */}
-          <article className="w-full min-w-0 max-w-none">
+          {/* Rendered Body: Markdown notes structurally receive .prose typography styles; HTML notes render inside unstyled wrapper container holding .primer-html-note */}
+          <article className={clsx("w-full min-w-0 max-w-none", doc.format !== 'html' && "prose")}>
             {children}
           </article>
         </main>
